@@ -26,7 +26,7 @@ python3 scripts/empaquetar.py     # arma el ZIP que se sube a Claude web
 ```
 
 En **Claude Code** basta con enlazar la carpeta a `~/.claude/skills/`; en
-Windows, `mklink /J "%USERPROFILE%\.claude\skillsnthro-pic-brand" "ruta"`.
+Windows, `mklink /J "%USERPROFILE%\.claude\skills\anthro-pic-brand" "ruta"`.
 En **claude.ai web** y en **desktop** se sube el ZIP.
 
 Sistema de identidad visual de Claude y Anthropic para las piezas de ClaudeTec.

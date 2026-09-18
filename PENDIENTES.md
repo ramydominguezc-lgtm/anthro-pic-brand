@@ -13,28 +13,34 @@ algo), **Bloqueado** (falta información que solo él tiene), **Listo para hacer
 
 | # | Qué | Por qué no se ha hecho |
 |---|---|---|
-| 1 | **Confirmar 06, 07 y 08 de la tanda 02** | Las tres se rehicieron con tu veredicto. La 06 y la 07 son versiones nuevas de cero: dijiste que si no convencen quedan descartadas. La 08 solo cambió de acomodo |
-| 2 | **Sacar `piezas-aprobadas/` del ZIP** | Son 33 archivos y 14.5 MB de los 195 que caben (el tope son 200). Es material entregable tuyo, no herramienta, y `veredictos.md` ya lleva lo que la sesión necesita de esas piezas. Sin ella la skill baja a 162 archivos y 17.45 MB. No lo toco sin tu visto bueno porque cambia qué recibe una sesión nueva |
-| 3 | **Dónde vive el manual interactivo** | El PDF está hecho. La galería viva —piezas nuevas según se aprueban— pide un artifact, que es lo único que se actualiza sin reimprimir |
+| 1 | **Dónde vive el manual interactivo** | El PDF está hecho. La galería viva —piezas nuevas según se aprueban— pide un artifact, que es lo único que se actualiza sin reimprimir |
 
 ## Bloqueado — falta información que solo tiene Ramses
 
 | # | Qué | Qué hace falta |
 |---|---|---|
-| 4 | **Rediseño de las láminas de carrusel** | La lista de lo que tienen que cubrir está en `references/laminas-carrusel.md`. Falta empezar por tres de un carrusel real, con texto de verdad |
-| 5 | **Logo LiFE** | No hay archivo. Si una pieza de grupo estudiantil tiene que llevarlo, hace falta el original |
+| 2 | **Rediseño de las láminas de carrusel** | La lista de lo que tienen que cubrir está en `references/laminas-carrusel.md`. Falta empezar por tres de un carrusel real, con texto de verdad |
+| 3 | **Logo LiFE** | No hay archivo. Si una pieza de grupo estudiantil tiene que llevarlo, hace falta el original |
 
 ## Listo para hacer — no rompe nada
 
 | # | Qué | Nota |
 |---|---|---|
-| 6 | **Subir el ZIP a Claude web** | Nada lo bloquea ya. Protocolo en `VERSION.md` |
-| 7 | **Montar el Brand Kit en Canva** | Son pasos manuales dentro de Canva, ~40 min. El paquete de subida lo arma `scripts/preparar_canva.py` y el procedimiento está en `references/guia-canva.md` |
+| 4 | **Subir el ZIP a Claude web** | Ya está armado: `anthro-pic-brand-2026-09-17.zip` en el escritorio, 14.75 MB. Solo falta arrastrarlo |
+| 5 | **Montar el Brand Kit en Canva** | Son pasos manuales dentro de Canva, ~40 min. El paquete de subida lo arma `scripts/preparar_canva.py` y el procedimiento está en `references/guia-canva.md` |
 
 ---
 
 ## Cerrado
 
+- ~~Las tres skills sin copia de seguridad~~ · v2.15 — las tres en GitHub,
+  privadas, bajo `ramydominguezc-lgtm`. Tres repositorios y no uno porque se
+  instalan por separado y `git init` se hizo **en la carpeta de trabajo**: así
+  no hay copia que se desincronice ni junción que rehacer
+- ~~Qué hacer con las piezas de ejemplo y la inspiración~~ · v2.15 — fuera del
+  ZIP, dentro del repositorio. Se comprobó que **ningún paso del flujo las
+  abre**: `manual_pdf.py` las lee solo para las miniaturas del PDF, y
+  `referencias/inspiracion/` no la lee ningún script
 - ~~Veredicto de la tanda 02~~ · v2.15 — dado. 01, 02, 04, 05 y 09 aprobadas
   tal cual; 03 y 10 aprobadas con corrección; 06, 07 y 08 rehechas y a la
   espera de confirmación (fila 1)

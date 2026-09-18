@@ -94,15 +94,33 @@ sobrevivir** (ver protocolo abajo).
 `/mnt/skills/user/` es escribible pero **efímero**. Se repuebla en cada arranque
 de contenedor desde la última versión subida. Las escrituras nunca regresan solas.
 
-**Regla: una sesión que toca la skill y no termina en ZIP subido, no ocurrió.**
+**Regla: una sesión que toca la skill y no termina en commit y ZIP, no ocurrió.**
+
+Desde la v2.15 hay dos destinos y son cosas distintas:
+
+| | Qué es | Qué lleva |
+|---|---|---|
+| **El repositorio** | el archivo. `github.com/ramydominguezc-lgtm/anthro-pic-brand`, privado | todo: 225 archivos, 34.9 MB |
+| **El ZIP** | la herramienta que se instala | solo lo que el flujo lee: 143 archivos, 14.8 MB comprimido |
+
+Lo que sale del ZIP **no se pierde**, está en el repositorio. Esa es toda la
+razón por la que se puede adelgazar sin miedo.
 
 Al cerrar cualquier sesión de trabajo sobre la skill:
 
-1. Empaquetar **sin `salida/`**, que es trabajo producido y no la skill:
-   `zip -r anthro-pic-brand-vAAAA-MM-DD.zip anthro-pic-brand -x '*/salida/*'`
-2. Entregarlo con `present_files` y descargarlo.
+1. `git add -A && git commit` — el repositorio primero, siempre. Si se pierde la
+   sesión, se pierde de aquí.
+2. `python3 scripts/empaquetar.py` — arma el ZIP. Comprueba el tope de 200
+   archivos y corre `enlaces.py`; **se niega** si algo no cuadra, en vez de
+   dejar un ZIP con una ruta rota que sale a publicar con un hueco.
+3. Subir el ZIP a Claude web / desktop.
 3. Subirlo en Configuración → Capacidades → Skills, reemplazando la anterior.
 4. Añadir la fila al registro de abajo **antes** de empaquetar.
+
+Las otras dos skills del conjunto tienen su propio repositorio, privado también,
+porque se instalan por separado: `clawd-animaciones` (genera) y
+`clawd-biblioteca` (almacena y entrega). Si regeneras `paseo` en la primera,
+cambia la pieza `10-pixel` de esta.
 
 Esto se escribió porque entre el 31 de julio y el 3 de agosto de 2026 se
 perdieron cuatro sesiones de trabajo por no hacerlo.

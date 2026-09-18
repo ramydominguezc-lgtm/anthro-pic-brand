@@ -65,6 +65,9 @@ def entran(con_piezas=False):
         partes = p.relative_to(RAIZ).parts
         if partes[0] in fuera or any(x in BASURA for x in partes):
             continue
+        # `.gitignore` y `.gitattributes` son del repositorio, no de la skill.
+        if p.name in ('.gitignore', '.gitattributes'):
+            continue
         if p.name.startswith('~$') or p.suffix == '.pyc':
             continue
         yield p

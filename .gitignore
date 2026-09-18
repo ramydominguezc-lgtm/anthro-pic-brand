@@ -1,0 +1,24 @@
+# Basura de Python
+__pycache__/
+*.pyc
+
+# `salida/` es el banco de trabajo. Los guiones que componen las piezas SI se
+# guardan —son la receta y no se pueden reescribir de memoria— y las fotos de
+# archivo tambien. Lo que esos guiones PRODUCEN, no: un HTML de esta skill lleva
+# los assets embebidos en base64 y pesa 2.7 MB por pieza, y se vuelve a generar
+# con una orden.
+salida/*.html
+salida/*.png
+salida/*.pdf
+salida/*.gif
+salida/*.mp4
+salida/_*
+
+# Derivados de otras herramientas
+assets-canva/
+*.zip
+
+# OneDrive
+.DS_Store
+Thumbs.db
+~$*

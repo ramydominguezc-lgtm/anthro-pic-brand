@@ -1,0 +1,92 @@
+/* Anthropic / Claude — tokens de marca
+   Fuente unica de verdad para color y tipografia. Importa este archivo en vez de
+   escribir hex sueltos: cambiar la marca aqui la cambia en toda la pieza. */
+
+/* Fuentes locales. Google Fonts esta bloqueado en el contenedor de render y la
+   caida a Arial/Georgia es SILENCIOSA: la pieza sale plausible y fuera de marca.
+   Los woff2 viven en assets/fonts/. Si mueves este archivo, ajusta las rutas. */
+@font-face { font-family:'Poppins'; font-weight:600; font-style:normal; font-display:block;
+  src:url('../fonts/poppins-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family:'Poppins'; font-weight:700; font-style:normal; font-display:block;
+  src:url('../fonts/poppins-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family:'Lora'; font-weight:400; font-style:normal; font-display:block;
+  src:url('../fonts/lora-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family:'Lora'; font-weight:400; font-style:italic; font-display:block;
+  src:url('../fonts/lora-latin-400-italic.woff2') format('woff2'); }
+@font-face { font-family:'Newsreader'; font-weight:600; font-style:normal; font-display:block;
+  src:url('../fonts/newsreader-semibold.ttf') format('truetype'); }
+
+/* Pixel. Las dos salen del video "The making of Claude Code" de Anthropic: el
+   titular en una pixel gruesa y las etiquetas y la terminal en una pixel
+   monoespaciada fina. Las dos son OFL y viajan dentro de la skill.
+
+   POR QUE PRESS START 2P Y NO PIXELIFY SANS
+   Pixelify Sans estuvo aqui hasta la v2.14 y Ramses la descarto por ilegible:
+   redondea la esquina de cada pixel, asi que la D se lee O y la B se lee 8. Se
+   cotejaron cuatro candidatas al mismo cuerpo (Pixelify, Departure, Silkscreen,
+   Press Start 2P). Silkscreen tampoco: confunde U con V y a cuerpo chico se
+   deshace. Press Start 2P es la unica de esquina viva que aguanta titular
+   grande Y linea chica, y tiene acentos y signos de apertura.
+
+   LO QUE CUESTA: es MUY ancha, ~10 caracteres por linea a 62px sobre 1080. El
+   titular en pixel se escribe corto o no cabe. Solo trae un peso; se declara el
+   rango 400-700 para que nadie le sintetice una negrita y le rompa el pixel.
+   Departure Mono pide tamanos multiplos de 11px para caer en rejilla. */
+@font-face { font-family:'Press Start 2P'; font-weight:400 700; font-style:normal; font-display:block;
+  src:url('../fonts/press-start-2p-400.woff2') format('woff2'); }
+@font-face { font-family:'Departure Mono'; font-weight:400; font-style:normal; font-display:block;
+  src:url('../fonts/departure-mono-400.woff2') format('woff2'); }
+
+:root {
+  /* base */
+  --dark:        #141413;
+  --light:       #faf9f5;
+  --mid-gray:    #b0aea5;
+  --light-gray:  #e8e6dc;
+
+  /* acento — uno dominante por pieza */
+  --orange:      #d97757;
+
+  /* fondos principales. Estos tres son los que se usan por defecto cuando la
+     pieza no pide color. SOLO con texto #141413. */
+  --celeste:     #a3cbe6;   /* 10.8:1 con negro */
+  --verde-claro: #c2d4aa;   /* 11.7:1 */
+  --lila:        #cbcada;   /* 11.4:1 */
+
+  /* Contrapartes fuertes de los dos primeros. Siguen existiendo —son las unicas
+     que admiten texto claro— pero NO se eligen por defecto ni encabezan una
+     serie. Solo cuando la pieza necesita texto blanco sobre color. */
+  --blue:        #6a9bcc;   /* 6.3:1 con negro, 2.8:1 con blanco */
+  --green:       #788c5d;   /* 5.0:1 con negro, 3.5:1 con blanco */
+
+  /* Por que estos tres no aguantan texto blanco, y no es cuestion de afinar el
+     hex: para que el negro llegue a 4.5:1 el fondo tiene que aclarar hasta
+     L>=0.214, y para que el blanco llegue a 3:1 tiene que quedarse en L<=0.279.
+     Estos tres estan en L 0.56-0.62 —muy por encima— asi que el blanco cae a
+     1.5:1. Los unicos fondos de color que admiten las DOS tintas son los tonos
+     medios: --green (5.0 con negro, 3.5 con blanco) y --blue (6.3 / 2.8). */
+
+  /* dialecto editorial / Builder Club */
+  --clay:        #cc785c;
+  --ivory:       #f0eee6;
+
+  /* texto secundario accesible: --mid-gray da 2:1 sobre --light y no se lee */
+  --muted:       #7d7b74;
+
+  /* tipografia */
+  --font-heading: 'Poppins', Arial, Helvetica, sans-serif;
+  --font-body:    'Lora', Georgia, 'Times New Roman', serif;
+  --font-lockup:  'Newsreader', Georgia, serif;
+  --font-titular: 'Newsreader', Georgia, serif;   /* titulares de comunidad */
+
+  /* Pixel. NO son las tipografias por defecto: el titular sigue siendo la serif.
+     Se usan cuando la pieza habla de terminal, codigo o producto. */
+  --font-pixel:   'Press Start 2P', 'Courier New', monospace;  /* titular grande, esquina viva */
+  --font-mono:    'Departure Mono', ui-monospace, Consolas, monospace;  /* terminal, etiquetas */
+
+  /* ritmo */
+  --margen:      8%;
+  --radio:       6px;
+  --lh-titular:  1.05;
+  --lh-cuerpo:   1.6;
+}

@@ -1,0 +1,216 @@
+/* fondos-color.css — tramas de fondo sin fotografia.
+   ------------------------------------------------------------------
+   `fondos.css` trata FOTOS. Esto es lo otro: el lienzo cuando no hay imagen.
+
+   Una pieza de color plano es correcta y es la que sale por defecto. Estas
+   clases existen para cuando el plano se queda corto, y todas cumplen la regla
+   de la marca sobre degradados: se permite **un solo hex a distinta opacidad**,
+   duotono, semitono y grano. Lo prohibido es fundir dos colores distintos, asi
+   que aqui no hay ni un solo degradado de dos tintas — los cortes en diagonal y
+   las cintas son parones duros, no mezclas.
+
+   COMO SE USA
+
+       <link rel="stylesheet" href="_base.css">
+       <link rel="stylesheet" href="fondos-color.css">
+
+       <div class="pieza fondo-cuadricula" style="--fondo:var(--ivory)"> … </div>
+
+   Tres variables gobiernan todas las clases:
+
+       --fondo   color del lienzo            (por defecto --light)
+       --trama   tinta del dibujo            (por defecto negro al 8 %)
+       --paso    tamano de la celda          (por defecto 56px)
+
+   La trama se declara con alpha, no con un color de la paleta: sobre crema hace
+   falta mas tinta que sobre oscuro, y con alpha se ajusta cambiando un numero.
+
+   GROSOR MINIMO: 3 px. Las primeras versiones de estas tramas iban a 1 y 1.5 px
+   y se veian perfectas en pantalla. En cuanto el lienzo se reduce —una miniatura
+   del catalogo, la rejilla de Instagram, la recompresion de la app— las lineas
+   subpixel no se promedian: desaparecen unas si y otras no, y la cuadricula sale
+   con agujeros. Las diagonales directamente se funden en un degradado. Nada baja
+   de 3 px, y lo que tiene que leerse a distancia va a 4.
+
+   EL JUEGO POR DEFECTO. Cuando la pieza no pide color, se rota entre estos seis
+   y no se inventa otro:
+
+       --ivory        crema, el de siempre
+       --lila         #cbcada
+       --celeste      #a3cbe6
+       --verde-claro  #c2d4aa
+       --light        casi blanco
+       --dark         solo si lo piden
+
+   Los cuatro primeros llevan texto #141413 siempre. En una serie se alternan;
+   dentro de una misma pieza, uno solo.
+
+   CUALQUIER TRAMA SOBRE CUALQUIER COLOR. Ninguna clase tiene el color metido
+   dentro: todas pintan con `--trama`, que es un rgba, sobre `--fondo`, que es
+   cualquier hex o token. Lo unico que cambia entre un fondo claro y uno oscuro
+   es el signo de la tinta, y para eso esta el modificador `.tinta-clara`:
+
+       <div class="pieza fondo-puntos" style="--fondo:#2b3a2a">      tinta oscura
+       <div class="pieza fondo-puntos tinta-clara" style="--fondo:#2b3a2a">
+
+   Regla practica para elegir: si el fondo admite texto #141413, la trama va
+   oscura; si pide texto claro, va `.tinta-clara`. Es el mismo criterio que ya
+   decide el color del lockup, asi que no hay que medir dos veces.
+
+   CONTRASTE. La trama nunca es el problema de legibilidad; el fondo si. Los
+   fondos claros de la paleta —--lila, --celeste, --verde-claro— solo aguantan
+   texto #141413. Ver el aviso en `tokens.css`.
+
+   UN AVISO DE RENDIMIENTO. `mask-image` sobre el lienzo entero a 1080x1350 es
+   barato en Chromium, pero si la pieza ya lleva foto tratada, mide antes de
+   apilar: son dos composiciones de pagina completa.
+*/
+
+.pieza[class*="fondo-"]{
+  --trama: rgba(20,20,19,.14);
+  --velo:  rgba(20,20,19,.26);
+  --paso: 56px;
+  background-color: var(--fondo, var(--light));
+}
+/* Mismo dibujo, tinta al reves. Va DESPUES de la base y con la misma
+   especificidad (0,2,0 + atributo), asi que decide el orden del archivo. */
+.pieza[class*="fondo-"].tinta-clara{
+  --trama: rgba(250,249,245,.26);
+  --velo:  rgba(250,249,245,.20);
+}
+
+/* ---------------------------------------------------------- 1 · rejillas -- */
+
+/* Cuadricula de libreta. La mas util sobre crema: da textura de papel sin
+   competir con el texto. */
+.pieza.fondo-cuadricula{
+  background-image:
+    repeating-linear-gradient(to right,  var(--trama) 0 3px, transparent 3px var(--paso)),
+    repeating-linear-gradient(to bottom, var(--trama) 0 3px, transparent 3px var(--paso));
+}
+
+/* Papel milimetrado: retícula fina con una gruesa cada cinco celdas. */
+.pieza.fondo-milimetrado{
+  --paso: 34px;
+  background-image:
+    repeating-linear-gradient(to right,  var(--trama) 0 4px, transparent 4px calc(var(--paso) * 5)),
+    repeating-linear-gradient(to bottom, var(--trama) 0 4px, transparent 4px calc(var(--paso) * 5)),
+    repeating-linear-gradient(to right,  var(--trama) 0 3px, transparent 3px var(--paso)),
+    repeating-linear-gradient(to bottom, var(--trama) 0 3px, transparent 3px var(--paso));
+}
+
+/* ------------------------------------------------------------ 2 · puntos -- */
+
+.pieza.fondo-puntos{
+  background-image: radial-gradient(var(--trama) 3px, transparent 3.5px);
+  background-size: var(--paso) var(--paso);
+}
+
+/* Las dos tramas con mascara van en ::before, NO en la .pieza.
+   -----------------------------------------------------------------
+   `mask-image` sobre la .pieza enmascara el ELEMENTO entero: el color de fondo,
+   el titular, el lockup, todo. La pieza se desvanecia sobre el gris de la pagina
+   y parecia un error de render. La mascara tiene que morder solo la capa de la
+   trama, asi que la trama se muda a un pseudo-elemento con `z-index:-1` —el
+   mismo sitio donde vive `.cinta` de capas.css—, y el color de fondo se queda
+   en la .pieza, sin tocar. Por eso estas dos clases y `fondo-sellos` son las
+   unicas que declaran `position:relative`. */
+
+/* Puntos que se apagan hacia una esquina. Es lo que en las piezas oscuras se
+   lee como "degradado": no hay mezcla de colores, solo la misma trama
+   desvaneciendose. */
+.pieza.fondo-puntos-fundidos{--paso:44px; position:relative; isolation:isolate}
+.pieza.fondo-puntos-fundidos::before{
+  content:''; position:absolute; inset:0; z-index:-1;
+  background-image: radial-gradient(var(--trama) 3.5px, transparent 4px);
+  background-size: var(--paso) var(--paso);
+  -webkit-mask-image: radial-gradient(105% 72% at 92% 8%, #000 8%, transparent 74%);
+          mask-image: radial-gradient(105% 72% at 92% 8%, #000 8%, transparent 74%);
+}
+
+/* Semitono: puntos grandes que se cierran de un lado al otro. Mismo recurso que
+   el semitono de foto, aplicado al lienzo vacio. */
+.pieza.fondo-semitono{--paso:30px; position:relative; isolation:isolate}
+.pieza.fondo-semitono::before{
+  content:''; position:absolute; inset:0; z-index:-1;
+  background-image: radial-gradient(var(--trama) 7px, transparent 7.5px);
+  background-size: var(--paso) var(--paso);
+  -webkit-mask-image: linear-gradient(to top left, #000 0%, transparent 64%);
+          mask-image: linear-gradient(to top left, #000 0%, transparent 64%);
+}
+
+/* ------------------------------------------------------------ 3 · lineas -- */
+
+.pieza.fondo-diagonales{
+  --paso: 30px;
+  background-image: repeating-linear-gradient(48deg,
+    var(--trama) 0 5px, transparent 5px var(--paso));
+}
+
+/* Arcos concentricos desde una esquina. Ojo: `repeating-radial-gradient` con
+   parones duros NO es una mezcla de dos tintas, son anillos planos. */
+.pieza.fondo-arcos{
+  --paso: 74px;
+  background-image: repeating-radial-gradient(circle at 6% 104%,
+    var(--trama) 0 5px, transparent 5px var(--paso));
+}
+
+/* ---------------------------------------------------- 5 · sin geometria --- */
+
+/* Velo de un solo hex desde un borde. Permitido explicitamente por la regla de
+   degradados: un hex, dos opacidades. */
+.pieza.fondo-velo{
+  background-image: linear-gradient(197deg, var(--velo) 0%, transparent 58%);
+}
+
+/* Grano. Va como SVG en data: URI para no depender de ningun archivo, y por eso
+   `url()` aqui no cae en la trampa de rutas relativas de fondos.css. */
+.pieza.fondo-grano{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23r)' opacity='.42'/%3E%3C/svg%3E");
+}
+
+/* ================================================================
+   HUECOS DE IMAGEN — no son fondo, son marco
+   ================================================================
+   El corte diagonal y la esquina de color empezaron aqui como fondos planos y
+   Ramses los mando a lo que de verdad hacen: recortar una FOTO contra el color
+   del lienzo. Como fondo eran dos manchas; como hueco son la unica forma de
+   meter una imagen sin caja rectangular.
+
+   La foto entra por `--foto` desde el HTML, igual que en `fondos.css`, y por
+   eso tiene que ser data: URI o ruta absoluta (ver la trampa 12 de
+   reglas-derivadas.md). El color del lienzo sigue siendo `--fondo`.
+
+       <div class="pieza fondo-plano" style="--fondo:var(--celeste)">
+         <div class="hueco-diagonal" style="--foto:url('…')"></div>
+
+   La .pieza necesita `fondo-plano` (o cualquier otra trama) aunque el hueco tape
+   media pieza: el color del lienzo lo pinta la regla de fondo, no el hueco. Sin
+   esa clase el hueco flota sobre blanco.
+
+   `--corte` es la altura a la que empieza el corte, en porcentaje del alto. */
+
+.hueco-diagonal{
+  --corte: 55%;
+  position:absolute; inset:0; z-index:-1;
+  background-image: var(--foto);
+  background-size: cover; background-position: center;
+  clip-path: polygon(0 calc(var(--corte) + 7%), 100% var(--corte), 100% 100%, 0 100%);
+}
+/* Espejado: el corte sube hacia la derecha en vez de bajar. */
+.hueco-diagonal.al-reves{
+  clip-path: polygon(0 var(--corte), 100% calc(var(--corte) + 7%), 100% 100%, 0 100%);
+}
+
+/* Cuarto de circulo anclado a una esquina. `--radio` en px porque el circulo
+   tiene que medir lo mismo aunque cambie la proporcion del lienzo. */
+.hueco-esquina{
+  --radio: 560px;
+  position:absolute; inset:0; z-index:-1;
+  background-image: var(--foto);
+  background-size: cover; background-position: center;
+  clip-path: circle(var(--radio) at 100% 100%);
+}
+.hueco-esquina.arriba-izq{clip-path: circle(var(--radio) at 0% 0%)}
+.hueco-esquina.arriba-der{clip-path: circle(var(--radio) at 100% 0%)}
+.hueco-esquina.abajo-izq{clip-path: circle(var(--radio) at 0% 100%)}

@@ -1,0 +1,54 @@
+{
+  "nombre": "Anthropic / Claude",
+  "colores": {
+    "base": {
+      "dark": "#141413",
+      "light": "#faf9f5",
+      "mid-gray": "#b0aea5",
+      "light-gray": "#e8e6dc"
+    },
+    "acentos": {
+      "orange": "#d97757",
+      "blue": "#6a9bcc",
+      "green": "#788c5d"
+    },
+    "editorial": {
+      "clay": "#cc785c",
+      "ivory": "#f0eee6"
+    },
+    "utilidad": {
+      "muted": "#7d7b74"
+    }
+  },
+  "tipografia": {
+    "titulos": {
+      "familia": "Poppins",
+      "pesos": [
+        "SemiBold 600",
+        "Bold 700"
+      ],
+      "minimo_pt": 24,
+      "sustituto": "Arial"
+    },
+    "cuerpo": {
+      "familia": "Lora",
+      "pesos": [
+        "Regular 400",
+        "Italic"
+      ],
+      "sustituto": "Georgia"
+    },
+    "lockup": {
+      "familia": "Newsreader",
+      "peso": "SemiBold 600",
+      "nota": "sustituto libre de Copernicus; solo para wordmarks"
+    }
+  },
+  "reglas": [
+    "Un solo acento dominante por pieza",
+    "Maximo contraste: #141413 sobre #faf9f5 o al reves",
+    "Sin degradados, sombras ni glow",
+    "Sentence case, alineacion izquierda",
+    "Un solo elemento grafico por pieza"
+  ]
+}

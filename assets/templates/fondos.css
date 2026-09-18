@@ -1,0 +1,246 @@
+/* fondos.css — doce tratamientos de foto como clases modificadoras.
+   ------------------------------------------------------------------
+   Funcionan con CUALQUIER imagen, no solo con las de la biblioteca. La foto
+   entra por variable, no por regla:
+
+       <div class="pieza fondo-scrim" style="--foto:url('../fotos/equipo.png')">
+
+   LA RUTA VA RELATIVA A ESTE ARCHIVO, NO AL HTML. url() dentro de una custom
+   property se resuelve contra la hoja donde se USA —esta— aunque la variable se
+   declare inline en el HTML. Si pones la ruta relativa al HTML, el navegador
+   busca un nivel arriba, no encuentra nada, NO da error, y la pieza sale gris y
+   plausible. Si dudas, usa ruta absoluta o http(s).
+
+   Ocho no tocan el archivo. Los otros cuatro —duotono, semitono, riso, papel—
+   necesitan que la imagen se procese antes con scripts/tratar_foto.py, porque
+   CSS no sabe mapear tonos a dos tintas.
+
+   ANTES DE METER UNA FOTO AJENA:  python3 scripts/tratar_foto.py foto.jpg --recomendar
+
+   Dos defectos que solo aparecieron al montar las laminas, y por que el codigo
+   se ve asi:
+
+   1. ESPECIFICIDAD. La regla base era `.pieza[class*="fondo-"]` (0,2,1) y los
+      modificadores `.fondo-banda` (0,1,1). La base ganaba y anulaba todos los
+      `inset`: la banda salia a sangre y la tarjeta tapaba la foto entera. Las
+      piezas PARECIAN correctas. Por eso los modificadores llevan `.pieza.fondo-x`
+      (0,2,0 + 0,0,1 = empatan) y decide el orden del archivo.
+
+   2. url() RELATIVO. Se resuelve contra la hoja que lo declara, no contra el
+      HTML que la consume. Once plantillas renderizaron sin ninguna foto por
+      esto, sin dar error. Por eso la foto entra por `--foto` desde el HTML.
+
+   REGLA DE ORO: contraste y visibilidad de la foto NO estan renidos. Lo parecen
+   mientras el texto se apoye sobre la foto. Cuando ocupan zonas distintas del
+   lienzo —banda, tarjeta, corte— se consiguen los dos a la vez. Si necesitas
+   maxima legibilidad Y que la foto se vea, no subas el velo: separa las zonas.
+*/
+
+/* ---------------------------------------------------------------- base ---- */
+
+.pieza[class*="fondo-"] {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--light, #faf9f5);
+}
+
+/* La capa de foto va SIEMPRE detras del contenido. El velo se pinta sobre la
+   foto y debajo del texto: si se pinta encima, el texto se apaga y no se nota
+   hasta medirlo. */
+.pieza[class*="fondo-"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--foto);
+  background-size: cover;
+  background-position: var(--foto-pos, center);
+  z-index: -2;
+}
+
+.pieza[class*="fondo-"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Las dos capas van a z-index NEGATIVO dentro del contexto de apilamiento que
+   crea `isolation`. Asi el contenido queda encima SIN tocarlo.
+
+   La version anterior hacia `.pieza[class*="fondo-"] > * {position:relative}`
+   para elevar los hijos, y eso PISABA el `position:absolute` de la pildora y del
+   pie: se volvian bloques de ancho completo. El sintoma es una pildora estirada
+   de canto a canto. Una hoja de fondos no debe imponer `position` a nada. */
+.pieza[class*="fondo-"] {
+  isolation: isolate;
+}
+
+/* ------------------------------------------------- A · velo plano --------- */
+/* El de siempre. Un solo hex a distinta opacidad NO es un degradado y si esta
+   permitido. Lo prohibido es mezclar dos colores distintos. */
+.pieza.fondo-velo::after {
+  background: rgba(250, 249, 245, var(--velo, 0.88));
+}
+.pieza.fondo-velo--oscuro::after {
+  background: rgba(20, 20, 19, var(--velo, 0.82));
+}
+
+/* ------------------------------------------------- B · scrim direccional -- */
+/* La foto se ve entera de un lado y el texto vive del otro. Un solo hex, de
+   opaco a transparente: sigue sin ser un degradado de color. */
+.pieza.fondo-scrim::after {
+  background: linear-gradient(
+    var(--scrim-dir, to top),
+    rgba(20, 20, 19, var(--velo, 0.94)) 0%,
+    rgba(20, 20, 19, calc(var(--velo, 0.94) * 0.92)) 38%,
+    rgba(20, 20, 19, 0) 78%
+  );
+}
+.pieza.fondo-scrim--claro::after {
+  background: linear-gradient(
+    var(--scrim-dir, to top),
+    rgba(250, 249, 245, var(--velo, 0.95)) 0%,
+    rgba(250, 249, 245, calc(var(--velo, 0.95) * 0.9)) 38%,
+    rgba(250, 249, 245, 0) 78%
+  );
+}
+
+/* ------------------------------------------------- C · foto a sangre ------ */
+/* Foto completa con velo parejo. Para titular corto y grande, nada mas. */
+.pieza.fondo-sangre::after {
+  background: rgba(20, 20, 19, var(--velo, 0.55));
+}
+
+/* ------------------------------------------------- D · banda de foto ------ */
+/* Texto arriba sobre fondo limpio, foto abajo SIN velo. Contraste maximo y
+   foto a maximo detalle al mismo tiempo. Es el tratamiento que demuestra la
+   regla de oro. */
+.pieza.fondo-banda::before {
+  inset: var(--banda-top, 58%) 0 0 0;
+}
+.pieza.fondo-banda::after {
+  background: none;
+}
+
+.pieza.fondo-banda--arriba::before {
+  inset: 0 0 var(--banda-bottom, 52%) 0;
+}
+.pieza.fondo-banda--arriba::after {
+  background: none;
+}
+
+/* ------------------------------------------------- E · tarjeta sangrante -- */
+/* La foto ocupa el lienzo y una tarjeta de color sangra por un canto. El texto
+   vive en la tarjeta, sobre color plano: 100% de contraste. */
+.pieza.fondo-tarjeta::before {
+  inset: 0;
+}
+.pieza.fondo-tarjeta::after {
+  background: var(--tarjeta-color, #faf9f5);
+  inset: var(--tarjeta-inset, 46% -8% -8% -8%);
+  z-index: -1;
+}
+
+/* ------------------------------------------------- F · corte horizontal --- */
+/* Foto arriba a sangre, ficha abajo sobre fondo plano. Igual que la banda pero
+   con el corte declarado como borde, no como zona. */
+.pieza.fondo-corte::before {
+  inset: 0 0 var(--corte, 40%) 0;
+}
+.pieza.fondo-corte::after {
+  background: var(--corte-color, #faf9f5);
+  inset: calc(100% - var(--corte, 40%)) 0 0 0;
+}
+
+/* ------------------------------------------------- G · duotono ------------ */
+/* La imagen ya viene mapeada a dos tintas por tratar_foto.py. CSS solo la
+   coloca; no intenta el mapeo con filtros, que produce tonos intermedios. */
+.pieza.fondo-duotono::after {
+  background: rgba(250, 249, 245, var(--velo, 0.12));
+}
+
+/* ------------------------------------------------- H · semitono ----------- */
+/* El unico tratamiento cuyo peor caso NO depende de la foto: el fondo de un
+   semitono solo puede ser tinta o papel, nunca un valor intermedio ni mas
+   oscuro que la tinta. Acotado en 5.9:1 con naranja y 18.9:1 con oscuro.
+   Es el unico que sirve con cualquier imagen sin medirla antes. */
+.pieza.fondo-semitono::after {
+  background: none;
+}
+
+/* ------------------------------------------------- I · riso --------------- */
+.pieza.fondo-riso::after {
+  background: rgba(250, 249, 245, var(--velo, 0.08));
+}
+
+/* ------------------------------------------------- J · grano de papel ----- */
+/* Textura, no foto. Va debajo de todo y no pide medicion. */
+.pieza.fondo-papel::before {
+  background-image: var(--foto, none);
+  background-size: cover;
+  opacity: var(--grano, 0.5);
+}
+.pieza.fondo-papel::after {
+  background: none;
+}
+
+/* ------------------------------------------------- K · rayas -------------- */
+/* La foto se ve SOLO a traves de rayas finas, y se disuelve hacia abajo. No es
+   un patron sobre fondo liso: es la foto enmascarada. Deja leer la escena sin
+   competir con el texto, porque el ojo reconstruye la imagen a partir de las
+   lineas mientras el texto se apoya en el hueco. */
+.pieza.fondo-rayas::before {
+  -webkit-mask-image: repeating-linear-gradient(
+    var(--rayas-dir, 180deg),
+    #000 0 var(--rayas-linea, 2px),
+    transparent var(--rayas-linea, 2px) var(--rayas-paso, 5px));
+          mask-image: repeating-linear-gradient(
+    var(--rayas-dir, 180deg),
+    #000 0 var(--rayas-linea, 2px),
+    transparent var(--rayas-linea, 2px) var(--rayas-paso, 5px));
+  opacity: var(--rayas-alpha, 0.85);
+}
+/* El desvanecido va en el velo, no en la mascara: dos mascaras compuestas dan
+   resultados distintos entre navegadores. */
+.pieza.fondo-rayas::after {
+  background: linear-gradient(to bottom,
+    rgba(250,249,245,0) 0%,
+    rgba(250,249,245,.55) 42%,
+    rgba(250,249,245,.96) 72%,
+    rgba(250,249,245,1) 100%);
+}
+
+/* ------------------------------------------------- M · desenfoque --------- */
+/* Foto reconocible pero sin detalle que compita. Sirve cuando la pieza es una
+   tabla o una lista larga: el fondo aporta lugar y ambiente, no informacion.
+   El blur va en la capa de foto, nunca en el contenido. */
+.pieza.fondo-desenfoque::before {
+  filter: blur(var(--desenfoque, 22px));
+  transform: scale(1.08);        /* evita el borde transparente que deja el blur */
+}
+.pieza.fondo-desenfoque::after {
+  background: rgba(250, 249, 245, var(--velo, 0.84));
+}
+
+/* ------------------------------------------------- L · plano -------------- */
+/* Sin foto. Existe como clase para que una lamina pueda alternar a fondo limpio
+   sin cambiar de plantilla. */
+.pieza.fondo-plano::before {
+  background-image: none;
+  background-color: var(--plano, #faf9f5);
+}
+.pieza.fondo-plano::after {
+  background: none;
+}
+
+/* ---------------------------------------------------------------- notas --- */
+/*
+   AL MONTAR UN CARRUSEL, ALTERNA. Dos laminas seguidas con el mismo fondo se
+   leen como una sola. El orden que funciona es fuerte / limpio / fuerte.
+
+   NUNCA CLAWD SOBRE NARANJA. Es naranja y desaparece.
+
+   PILDORA NARANJA CON TEXTO CREMA = 3.0:1. No llega a AA y es la receta que la
+   propia guia de marca propone para CTA. Sobre naranja usa texto #141413: 5.9:1.
+*/

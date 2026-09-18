@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<title>Biblioteca — Anthropic / Claude</title>
+<style>
+:root{--dark:#141413;--light:#faf9f5;--muted:#7d7b74;--orange:#d97757;--linea:#e8e6dc}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--light);color:var(--dark);font:15px/1.5 system-ui,sans-serif;padding:32px 40px}
+h1{font-size:26px;font-weight:700;letter-spacing:-.02em}
+.sub{color:var(--muted);margin-top:4px;font-size:14px}
+.barra{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:22px 0 6px;
+       position:sticky;top:0;background:var(--light);padding:12px 0;z-index:5;
+       border-bottom:1px solid var(--linea)}
+button,input{font:inherit;border:1px solid var(--linea);background:#fff;color:var(--dark);
+             border-radius:999px;padding:7px 16px;cursor:pointer}
+button.on{background:var(--dark);color:var(--light);border-color:var(--dark)}
+input{cursor:text;min-width:200px}
+.fondos{margin-left:auto;display:flex;gap:6px}
+.sw{width:30px;height:30px;border-radius:50%;border:2px solid var(--linea);cursor:pointer}
+.sw.on{border-color:var(--dark)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:16px;margin-top:20px}
+.card{border:1px solid var(--linea);border-radius:10px;overflow:hidden;cursor:pointer;
+      transition:transform .08s}
+.card:hover{transform:translateY(-2px);border-color:var(--muted)}
+.lienzo{aspect-ratio:1;display:grid;place-items:center;padding:14px;background:var(--light)}
+.lienzo img{max-width:100%;max-height:100%;object-fit:contain}
+.pie{padding:8px 10px;border-top:1px solid var(--linea);font-size:11.5px;
+     display:flex;justify-content:space-between;gap:6px}
+.nom{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tag{color:var(--muted);flex:none}
+.vacio{color:var(--muted);padding:40px 0}
+#aviso{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+       background:var(--dark);color:var(--light);padding:10px 20px;border-radius:999px;
+       font-size:13px;transition:transform .18s}
+#aviso.ver{transform:translateX(-50%) translateY(0)}
+</style></head><body>
+
+<h1>Biblioteca de marca</h1>
+<p class="sub">75 archivos. Clic en cualquiera para copiar su ruta.</p>
+
+<div class="barra">
+  <button data-f="" class="on">Todo</button>
+  <button data-f="clawd">clawd</button><button data-f="iconos">iconos</button><button data-f="ilustraciones">ilustraciones</button><button data-f="logos">logos</button><button data-f="logos-claudetec">logos-claudetec</button>
+  <input id="q" placeholder="buscar…">
+  <div class="fondos">
+    <div class="sw on" style="background:#faf9f5" data-bg="#faf9f5"></div>
+    <div class="sw" style="background:#d97757" data-bg="#d97757"></div>
+    <div class="sw" style="background:#141413" data-bg="#141413"></div>
+  </div>
+</div>
+
+<div class="grid" id="grid"></div>
+<div id="aviso">ruta copiada</div>
+
+<script>
+const items = [{"carpeta": "logos", "nombre": "claude-glyph.png", "base": "claude-glyph", "variante": "", "ruta": "logos/claude-glyph.png", "kb": 60.8, "vector": false}, {"carpeta": "logos", "nombre": "claude-glyph.svg", "base": "claude-glyph", "variante": "", "ruta": "logos/claude-glyph.svg", "kb": 5.8, "vector": true}, {"carpeta": "logos", "nombre": "claude-wordmark.png", "base": "claude-wordmark", "variante": "", "ruta": "logos/claude-wordmark.png", "kb": 33.4, "vector": false}, {"carpeta": "logos", "nombre": "claude-wordmark.svg", "base": "claude-wordmark", "variante": "", "ruta": "logos/claude-wordmark.svg", "kb": 9.1, "vector": true}, {"carpeta": "logos-claudetec", "nombre": "claudetec--claro.png", "base": "claudetec", "variante": "claro", "ruta": "logos-claudetec/claudetec--claro.png", "kb": 98.5, "vector": false}, {"carpeta": "logos-claudetec", "nombre": "claudetec--claro.svg", "base": "claudetec", "variante": "claro", "ruta": "logos-claudetec/claudetec--claro.svg", "kb": 8.9, "vector": true}, {"carpeta": "logos-claudetec", "nombre": "claudetec--duotono-claro.png", "base": "claudetec", "variante": "duotono-claro", "ruta": "logos-claudetec/claudetec--duotono-claro.png", "kb": 100.0, "vector": false}, {"carpeta": "logos-claudetec", "nombre": "claudetec--duotono-claro.svg", "base": "claudetec", "variante": "duotono-claro", "ruta": "logos-claudetec/claudetec--duotono-claro.svg", "kb": 9.0, "vector": true}, {"carpeta": "logos-claudetec", "nombre": "claudetec--duotono.png", "base": "claudetec", "variante": "duotono", "ruta": "logos-claudetec/claudetec--duotono.png", "kb": 99.7, "vector": false}, {"carpeta": "logos-claudetec", "nombre": "claudetec--duotono.svg", "base": "claudetec", "variante": "duotono", "ruta": "logos-claudetec/claudetec--duotono.svg", "kb": 9.0, "vector": true}, {"carpeta": "logos-claudetec", "nombre": "claudetec--monocromo-claro.png", "base": "claudetec", "variante": "monocromo-claro", "ruta": "logos-claudetec/claudetec--monocromo-claro.png", "kb": 94.3, "vector": false}, {"carpeta": "logos-claudetec", "nombre": "claudetec--monocromo-claro.svg", "base": "claudetec", "variante": "monocromo-claro", "ruta": "logos-claudetec/claudetec--monocromo-claro.svg", "kb": 8.9, "vector": true}, {"carpeta": "logos-claudetec", "nombre": "claudetec.png", "base": "claudetec", "variante": "", "ruta": "logos-claudetec/claudetec.png", "kb": 97.7, "vector": false}, {"carpeta": "logos-claudetec", "nombre": "claudetec.svg", "base": "claudetec", "variante": "", "ruta": "logos-claudetec/claudetec.svg", "kb": 8.9, "vector": true}, {"carpeta": "iconos", "nombre": "cabeza-destello.png", "base": "cabeza-destello", "variante": "", "ruta": "iconos/cabeza-destello.png", "kb": 187.1, "vector": false}, {"carpeta": "iconos", "nombre": "cabeza-ondas.png", "base": "cabeza-ondas", "variante": "", "ruta": "iconos/cabeza-ondas.png", "kb": 793.0, "vector": false}, {"carpeta": "iconos", "nombre": "cabeza-red.png", "base": "cabeza-red", "variante": "", "ruta": "iconos/cabeza-red.png", "kb": 694.7, "vector": false}, {"carpeta": "iconos", "nombre": "columnas-grafica.png", "base": "columnas-grafica", "variante": "", "ruta": "iconos/columnas-grafica.png", "kb": 538.4, "vector": false}, {"carpeta": "iconos", "nombre": "faro.png", "base": "faro", "variante": "", "ruta": "iconos/faro.png", "kb": 542.0, "vector": false}, {"carpeta": "iconos", "nombre": "manos-alzadas.png", "base": "manos-alzadas", "variante": "", "ruta": "iconos/manos-alzadas.png", "kb": 671.6, "vector": false}, {"carpeta": "iconos", "nombre": "mazo.png", "base": "mazo", "variante": "", "ruta": "iconos/mazo.png", "kb": 342.3, "vector": false}, {"carpeta": "iconos", "nombre": "pendulo-newton.png", "base": "pendulo-newton", "variante": "", "ruta": "iconos/pendulo-newton.png", "kb": 307.0, "vector": false}, {"carpeta": "iconos", "nombre": "pluma-libro.png", "base": "pluma-libro", "variante": "", "ruta": "iconos/pluma-libro.png", "kb": 486.5, "vector": false}, {"carpeta": "iconos", "nombre": "rayo-red.png", "base": "rayo-red", "variante": "", "ruta": "iconos/rayo-red.png", "kb": 104.2, "vector": false}, {"carpeta": "iconos", "nombre": "templo-destello.png", "base": "templo-destello", "variante": "", "ruta": "iconos/templo-destello.png", "kb": 595.7, "vector": false}, {"carpeta": "iconos", "nombre": "templo.png", "base": "templo", "variante": "", "ruta": "iconos/templo.png", "kb": 714.5, "vector": false}, {"carpeta": "ilustraciones", "nombre": "documento-nodos--azul.png", "base": "documento-nodos", "variante": "azul", "ruta": "ilustraciones/documento-nodos--azul.png", "kb": 69.7, "vector": false}, {"carpeta": "ilustraciones", "nombre": "documento-nodos--azul.svg", "base": "documento-nodos", "variante": "azul", "ruta": "ilustraciones/documento-nodos--azul.svg", "kb": 65.8, "vector": true}, {"carpeta": "ilustraciones", "nombre": "documento-nodos--claro.png", "base": "documento-nodos", "variante": "claro", "ruta": "ilustraciones/documento-nodos--claro.png", "kb": 68.9, "vector": false}, {"carpeta": "ilustraciones", "nombre": "documento-nodos--claro.svg", "base": "documento-nodos", "variante": "claro", "ruta": "ilustraciones/documento-nodos--claro.svg", "kb": 65.8, "vector": true}, {"carpeta": "ilustraciones", "nombre": "documento-nodos--verde.png", "base": "documento-nodos", "variante": "verde", "ruta": "ilustraciones/documento-nodos--verde.png", "kb": 69.7, "vector": false}, {"carpeta": "ilustraciones", "nombre": "documento-nodos--verde.svg", "base": "documento-nodos", "variante": "verde", "ruta": "ilustraciones/documento-nodos--verde.svg", "kb": 65.8, "vector": true}, {"carpeta": "ilustraciones", "nombre": "documento-nodos.png", "base": "documento-nodos", "variante": "", "ruta": "ilustraciones/documento-nodos.png", "kb": 69.5, "vector": false}, {"carpeta": "ilustraciones", "nombre": "documento-nodos.svg", "base": "documento-nodos", "variante": "", "ruta": "ilustraciones/documento-nodos.svg", "kb": 65.8, "vector": true}, {"carpeta": "ilustraciones", "nombre": "globo-llaves--azul.png", "base": "globo-llaves", "variante": "azul", "ruta": "ilustraciones/globo-llaves--azul.png", "kb": 71.7, "vector": false}, {"carpeta": "ilustraciones", "nombre": "globo-llaves--azul.svg", "base": "globo-llaves", "variante": "azul", "ruta": "ilustraciones/globo-llaves--azul.svg", "kb": 118.3, "vector": true}, {"carpeta": "ilustraciones", "nombre": "globo-llaves--claro.png", "base": "globo-llaves", "variante": "claro", "ruta": "ilustraciones/globo-llaves--claro.png", "kb": 70.5, "vector": false}, {"carpeta": "ilustraciones", "nombre": "globo-llaves--claro.svg", "base": "globo-llaves", "variante": "claro", "ruta": "ilustraciones/globo-llaves--claro.svg", "kb": 118.3, "vector": true}, {"carpeta": "ilustraciones", "nombre": "globo-llaves--verde.png", "base": "globo-llaves", "variante": "verde", "ruta": "ilustraciones/globo-llaves--verde.png", "kb": 71.6, "vector": false}, {"carpeta": "ilustraciones", "nombre": "globo-llaves--verde.svg", "base": "globo-llaves", "variante": "verde", "ruta": "ilustraciones/globo-llaves--verde.svg", "kb": 118.3, "vector": true}, {"carpeta": "ilustraciones", "nombre": "globo-llaves.png", "base": "globo-llaves", "variante": "", "ruta": "ilustraciones/globo-llaves.png", "kb": 71.3, "vector": false}, {"carpeta": "ilustraciones", "nombre": "globo-llaves.svg", "base": "globo-llaves", "variante": "", "ruta": "ilustraciones/globo-llaves.svg", "kb": 118.3, "vector": true}, {"carpeta": "ilustraciones", "nombre": "globo-red--azul.png", "base": "globo-red", "variante": "azul", "ruta": "ilustraciones/globo-red--azul.png", "kb": 60.1, "vector": false}, {"carpeta": "ilustraciones", "nombre": "globo-red--azul.svg", "base": "globo-red", "variante": "azul", "ruta": "ilustraciones/globo-red--azul.svg", "kb": 107.7, "vector": true}, {"carpeta": "ilustraciones", "nombre": "globo-red--claro.png", "base": "globo-red", "variante": "claro", "ruta": "ilustraciones/globo-red--claro.png", "kb": 58.9, "vector": false}, {"carpeta": "ilustraciones", "nombre": "globo-red--claro.svg", "base": "globo-red", "variante": "claro", "ruta": "ilustraciones/globo-red--claro.svg", "kb": 107.7, "vector": true}, {"carpeta": "ilustraciones", "nombre": "globo-red--verde.png", "base": "globo-red", "variante": "verde", "ruta": "ilustraciones/globo-red--verde.png", "kb": 60.2, "vector": false}, {"carpeta": "ilustraciones", "nombre": "globo-red--verde.svg", "base": "globo-red", "variante": "verde", "ruta": "ilustraciones/globo-red--verde.svg", "kb": 107.7, "vector": true}, {"carpeta": "ilustraciones", "nombre": "globo-red.png", "base": "globo-red", "variante": "", "ruta": "ilustraciones/globo-red.png", "kb": 59.8, "vector": false}, {"carpeta": "ilustraciones", "nombre": "globo-red.svg", "base": "globo-red", "variante": "", "ruta": "ilustraciones/globo-red.svg", "kb": 107.7, "vector": true}, {"carpeta": "ilustraciones", "nombre": "lampara-escritura--azul.png", "base": "lampara-escritura", "variante": "azul", "ruta": "ilustraciones/lampara-escritura--azul.png", "kb": 69.8, "vector": false}, {"carpeta": "ilustraciones", "nombre": "lampara-escritura--azul.svg", "base": "lampara-escritura", "variante": "azul", "ruta": "ilustraciones/lampara-escritura--azul.svg", "kb": 106.2, "vector": true}, {"carpeta": "ilustraciones", "nombre": "lampara-escritura--claro.png", "base": "lampara-escritura", "variante": "claro", "ruta": "ilustraciones/lampara-escritura--claro.png", "kb": 68.7, "vector": false}, {"carpeta": "ilustraciones", "nombre": "lampara-escritura--claro.svg", "base": "lampara-escritura", "variante": "claro", "ruta": "ilustraciones/lampara-escritura--claro.svg", "kb": 106.2, "vector": true}, {"carpeta": "ilustraciones", "nombre": "lampara-escritura--verde.png", "base": "lampara-escritura", "variante": "verde", "ruta": "ilustraciones/lampara-escritura--verde.png", "kb": 69.5, "vector": false}, {"carpeta": "ilustraciones", "nombre": "lampara-escritura--verde.svg", "base": "lampara-escritura", "variante": "verde", "ruta": "ilustraciones/lampara-escritura--verde.svg", "kb": 106.2, "vector": true}, {"carpeta": "ilustraciones", "nombre": "lampara-escritura.png", "base": "lampara-escritura", "variante": "", "ruta": "ilustraciones/lampara-escritura.png", "kb": 69.6, "vector": false}, {"carpeta": "ilustraciones", "nombre": "lampara-escritura.svg", "base": "lampara-escritura", "variante": "", "ruta": "ilustraciones/lampara-escritura.svg", "kb": 106.2, "vector": true}, {"carpeta": "ilustraciones", "nombre": "proyector-codigo--azul.png", "base": "proyector-codigo", "variante": "azul", "ruta": "ilustraciones/proyector-codigo--azul.png", "kb": 66.6, "vector": false}, {"carpeta": "ilustraciones", "nombre": "proyector-codigo--azul.svg", "base": "proyector-codigo", "variante": "azul", "ruta": "ilustraciones/proyector-codigo--azul.svg", "kb": 106.9, "vector": true}, {"carpeta": "ilustraciones", "nombre": "proyector-codigo--claro.png", "base": "proyector-codigo", "variante": "claro", "ruta": "ilustraciones/proyector-codigo--claro.png", "kb": 65.8, "vector": false}, {"carpeta": "ilustraciones", "nombre": "proyector-codigo--claro.svg", "base": "proyector-codigo", "variante": "claro", "ruta": "ilustraciones/proyector-codigo--claro.svg", "kb": 106.9, "vector": true}, {"carpeta": "ilustraciones", "nombre": "proyector-codigo--pantalla-clara.png", "base": "proyector-codigo", "variante": "pantalla-clara", "ruta": "ilustraciones/proyector-codigo--pantalla-clara.png", "kb": 66.1, "vector": false}, {"carpeta": "ilustraciones", "nombre": "proyector-codigo--pantalla-clara.svg", "base": "proyector-codigo", "variante": "pantalla-clara", "ruta": "ilustraciones/proyector-codigo--pantalla-clara.svg", "kb": 106.9, "vector": true}, {"carpeta": "ilustraciones", "nombre": "proyector-codigo--verde.png", "base": "proyector-codigo", "variante": "verde", "ruta": "ilustraciones/proyector-codigo--verde.png", "kb": 66.3, "vector": false}, {"carpeta": "ilustraciones", "nombre": "proyector-codigo--verde.svg", "base": "proyector-codigo", "variante": "verde", "ruta": "ilustraciones/proyector-codigo--verde.svg", "kb": 106.9, "vector": true}, {"carpeta": "ilustraciones", "nombre": "proyector-codigo.png", "base": "proyector-codigo", "variante": "", "ruta": "ilustraciones/proyector-codigo.png", "kb": 66.4, "vector": false}, {"carpeta": "ilustraciones", "nombre": "proyector-codigo.svg", "base": "proyector-codigo", "variante": "", "ruta": "ilustraciones/proyector-codigo.svg", "kb": 106.9, "vector": true}, {"carpeta": "clawd", "nombre": "clawd-base.png", "base": "clawd-base", "variante": "", "ruta": "clawd/clawd-base.png", "kb": 1.4, "vector": false}, {"carpeta": "clawd", "nombre": "clawd-base.svg", "base": "clawd-base", "variante": "", "ruta": "clawd/clawd-base.svg", "kb": 0.3, "vector": true}, {"carpeta": "clawd", "nombre": "clawd-coffee.png", "base": "clawd-coffee", "variante": "", "ruta": "clawd/clawd-coffee.png", "kb": 44.0, "vector": false}, {"carpeta": "clawd", "nombre": "clawd-headphones.png", "base": "clawd-headphones", "variante": "", "ruta": "clawd/clawd-headphones.png", "kb": 65.0, "vector": false}, {"carpeta": "clawd", "nombre": "clawd-headphones.svg", "base": "clawd-headphones", "variante": "", "ruta": "clawd/clawd-headphones.svg", "kb": 0.7, "vector": true}, {"carpeta": "clawd", "nombre": "clawd-search.png", "base": "clawd-search", "variante": "", "ruta": "clawd/clawd-search.png", "kb": 72.7, "vector": false}, {"carpeta": "clawd", "nombre": "clawd-skateboard.png", "base": "clawd-skateboard", "variante": "", "ruta": "clawd/clawd-skateboard.png", "kb": 71.5, "vector": false}];
+const grid = document.getElementById('grid');
+let filtro = '', texto = '';
+
+function pinta(){
+  const vis = items.filter(i =>
+    (!filtro || i.carpeta === filtro) &&
+    (!texto || (i.nombre + ' ' + i.carpeta).toLowerCase().includes(texto)));
+  grid.innerHTML = vis.length ? vis.map(i => `
+    <div class="card" data-ruta="${i.ruta}">
+      <div class="lienzo"><img src="${i.ruta}" loading="lazy" alt=""></div>
+      <div class="pie">
+        <span class="nom" title="${i.nombre}">${i.base}${i.variante ? ' · ' + i.variante : ''}</span>
+        <span class="tag">${i.vector ? 'SVG' : i.kb + 'k'}</span>
+      </div>
+    </div>`).join('') : '<p class="vacio">Nada coincide.</p>';
+}
+
+document.querySelectorAll('.barra button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.barra button').forEach(x => x.classList.remove('on'));
+  b.classList.add('on'); filtro = b.dataset.f; pinta();
+});
+document.getElementById('q').oninput = e => { texto = e.target.value.toLowerCase(); pinta(); };
+document.querySelectorAll('.sw').forEach(s => s.onclick = () => {
+  document.querySelectorAll('.sw').forEach(x => x.classList.remove('on'));
+  s.classList.add('on');
+  document.querySelectorAll('.lienzo').forEach(l => l.style.background = s.dataset.bg);
+});
+grid.onclick = e => {
+  const c = e.target.closest('.card'); if(!c) return;
+  navigator.clipboard.writeText(c.dataset.ruta);
+  const a = document.getElementById('aviso');
+  a.classList.add('ver'); setTimeout(() => a.classList.remove('ver'), 1100);
+};
+pinta();
+</script>
+</body></html>

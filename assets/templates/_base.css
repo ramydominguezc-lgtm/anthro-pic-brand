@@ -1,0 +1,37 @@
+/* Base compartida por todas las plantillas.
+   Las fuentes se cargan desde node_modules si existe (contenedor sin internet)
+   y si no, desde el import de tokens.css. */
+@import url('../tokens/tokens.css');
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{display:flex;align-items:center;justify-content:center;background:#8a8a86}
+
+.pieza{
+  background:var(--light); color:var(--dark);
+  font-family:var(--font-body);
+  display:flex; flex-direction:column;
+  overflow:hidden;
+}
+.pieza.acento{background:var(--orange); color:var(--light)}
+.pieza.oscuro{background:var(--dark);  color:var(--light)}
+
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px}
+.lockup img{display:block}
+.lockup .nombre{font-family:var(--font-heading);font-weight:700;line-height:1}
+.lockup .handle{font-family:var(--font-heading);font-weight:600;color:var(--muted)}
+.pieza.acento .lockup .handle,.pieza.oscuro .lockup .handle{color:rgba(250,249,245,.72)}
+.pill{font-family:var(--font-heading);font-weight:600;border:1.5px solid currentColor;
+      border-radius:999px;white-space:nowrap}
+
+/* El titular va en serif editorial: es lo que usan todas las referencias.
+   Poppins (--font-heading) queda para etiquetas, datos e interfaz. */
+h1{font-family:var(--font-titular);font-weight:600;line-height:var(--lh-titular);
+   letter-spacing:-.015em}
+.sub{font-family:var(--font-heading);font-weight:600;line-height:1.25;color:var(--orange)}
+.pieza.acento .sub,.pieza.oscuro .sub{color:var(--light)}
+
+.meta dt{font-style:italic;font-weight:600}
+.meta dd{line-height:1.3}
+.foot{display:flex;justify-content:space-between;align-items:flex-end;gap:40px}
+.cta{font-style:italic;line-height:1.45}
+.art{flex:none;object-fit:contain}

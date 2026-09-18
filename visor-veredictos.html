@@ -1,0 +1,520 @@
+<title>Biblioteca ClaudeTec</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Lora:ital,wght@0,400;1,400&display=swap">
+<style>
+  :root{
+    --ground:#faf9f5; --surface:#ffffff; --ink:#141413; --muted:#7d7b74;
+    --line:#e8e6dc; --line-fuerte:#d8d5c8; --tablero:#a8a59c;
+    --orange:#d97757; --green:#788c5d; --blue:#6a9bcc;
+    --font-ui:'Poppins',Arial,Helvetica,sans-serif;
+    --font-texto:'Lora',Georgia,serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ground:#141413; --surface:#1c1b19; --ink:#faf9f5; --muted:#a3a099;
+      --line:#2e2c28; --line-fuerte:#3d3a35; --tablero:#33312d;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#141413; --surface:#1c1b19; --ink:#faf9f5; --muted:#a3a099;
+    --line:#2e2c28; --line-fuerte:#3d3a35; --tablero:#33312d;
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--ground);color:var(--ink);font-family:var(--font-ui);
+       font-weight:500;-webkit-font-smoothing:antialiased}
+  .envoltura{max-width:1240px;margin:0 auto;padding-inline:24px;padding-block:0 72px}
+
+  /* ---------- cabecera ---------- */
+  header{padding-block:40px 24px;border-bottom:1px solid var(--line)}
+  h1{font-size:34px;font-weight:700;letter-spacing:-.025em;line-height:1.05;margin:0}
+  .bajada{font-family:var(--font-texto);font-weight:400;color:var(--muted);
+          font-size:15px;line-height:1.5;margin:10px 0 0;max-width:62ch}
+  .avance{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;margin-top:22px;
+          font-size:13px;color:var(--muted)}
+  .avance b{color:var(--ink);font-size:15px;font-variant-numeric:tabular-nums}
+  .avance .encargos-total b{color:var(--orange)}
+  .barra{height:3px;background:var(--line);margin-top:8px;overflow:hidden}
+  .barra i{display:block;height:100%;background:var(--orange);width:0;
+           transition:width .35s ease}
+
+  /* ---------- controles ---------- */
+  .controles{position:sticky;top:0;z-index:20;background:var(--ground);
+    border-bottom:1px solid var(--line);padding-block:14px;
+    display:flex;flex-wrap:wrap;gap:16px 26px;align-items:center}
+  .grupo{display:flex;align-items:center;gap:10px;min-width:0}
+  .etiqueta{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+            color:var(--muted);white-space:nowrap}
+
+  .fondos{display:flex;gap:6px}
+  .fondo{width:30px;height:30px;border:1.5px solid var(--line-fuerte);cursor:pointer;padding:0}
+  .fondo[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 2px var(--ground)}
+  .fondo:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+  select,input[type="search"]{font-family:var(--font-ui);font-size:13px;font-weight:500;
+    color:var(--ink);background:var(--surface);border:1px solid var(--line-fuerte);
+    padding:7px 10px;border-radius:2px;max-width:100%}
+  input[type="search"]{width:180px}
+  select:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+
+  /* ---------- secciones ---------- */
+  section{margin-top:52px}
+  .cabeza-seccion{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+                  border-bottom:1px solid var(--line);padding-bottom:10px}
+  h2{font-size:19px;font-weight:700;letter-spacing:-.015em;margin:0}
+  .cuenta{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .nota-seccion{font-family:var(--font-texto);font-size:13.5px;color:var(--muted);
+                margin:0;flex:1 1 320px;line-height:1.45}
+
+  .rejilla{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));
+           gap:30px 20px;margin-top:24px;align-items:start}
+  .rejilla.composiciones{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+
+  /* ---------- ficha ---------- */
+  .ficha{display:flex;flex-direction:column;gap:9px;min-width:0}
+  .lienzo{aspect-ratio:1;display:grid;place-items:center;padding:16px;
+          border:1px solid var(--line-fuerte);position:relative;overflow:hidden;
+          transition:background .18s ease}
+  .lienzo img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+  .lienzo.sangra{padding:0}
+  .lienzo.sangra img{width:100%;height:100%;object-fit:cover}
+  .hex{position:absolute;left:0;bottom:0;font-size:9.5px;letter-spacing:.06em;
+       padding:3px 6px;font-variant-numeric:tabular-nums;opacity:.55;
+       background:var(--ground);color:var(--ink)}
+
+  .composicion .lienzo{aspect-ratio:4/5;background:var(--tablero);padding:12px}
+  .composicion .lienzo img{box-shadow:0 1px 6px rgba(20,20,19,.22)}
+
+  .ficha.si .lienzo{border-color:var(--green);box-shadow:inset 0 0 0 1px var(--green)}
+  .ficha.no .lienzo{opacity:.42}
+
+  .pie{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .nombre{font-size:12.5px;font-weight:600;overflow-wrap:anywhere;line-height:1.3}
+  .medida{font-size:10.5px;color:var(--muted);white-space:nowrap;
+          font-variant-numeric:tabular-nums}
+  .forma{font-family:var(--font-texto);font-size:12px;color:var(--muted);
+         line-height:1.4;margin:-4px 0 0}
+  .forma em{font-style:normal;display:block;font-family:var(--font-ui);font-size:10px;
+            letter-spacing:.07em;text-transform:uppercase;margin-top:3px;opacity:.8}
+
+  .acciones{display:flex;gap:6px;align-items:center}
+  .voto{flex:1;font-family:var(--font-ui);font-size:11.5px;font-weight:600;
+        padding:6px 4px;cursor:pointer;background:transparent;color:var(--muted);
+        border:1px solid var(--line-fuerte);border-radius:2px}
+  .voto:hover{border-color:var(--ink);color:var(--ink)}
+  .voto[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+  .ficha.si .voto.si[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+  .voto:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+
+  .sobre{display:flex;gap:5px;align-items:center}
+  .sobre .etiqueta{font-size:9.5px;letter-spacing:.07em}
+  .marca{width:22px;height:22px;border:1px solid var(--line-fuerte);cursor:pointer;
+         padding:0;position:relative;border-radius:2px}
+  .marca:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+  .marca::after{position:absolute;inset:0;display:grid;place-items:center;
+                font-size:12px;font-weight:700;line-height:1}
+  .marca[data-estado="ok"]{border-color:var(--green);border-width:2px}
+  .marca[data-estado="ok"]::after{content:"✓";color:var(--green);
+    text-shadow:0 0 2px var(--ground),0 0 2px var(--ground)}
+  .marca[data-estado="mal"]::after{content:"✕";color:#fff;
+    text-shadow:0 0 3px rgba(0,0,0,.85),0 0 3px rgba(0,0,0,.85)}
+
+  /* ---------- encargos ---------- */
+  .encargos{display:flex;flex-direction:column;gap:5px;margin-top:2px}
+  .encargo{display:flex;gap:7px;align-items:flex-start;font-family:var(--font-texto);
+           font-size:12px;line-height:1.35;padding-left:9px;
+           border-left:2px solid var(--orange)}
+  .encargo.hecho{border-left-color:var(--line-fuerte);color:var(--muted);
+                 text-decoration:line-through;text-decoration-thickness:1px}
+  .encargo p{margin:0;flex:1;overflow-wrap:anywhere}
+  .encargo button{background:none;border:0;cursor:pointer;color:var(--muted);
+                  font-size:12px;line-height:1;padding:2px 3px;font-family:var(--font-ui)}
+  .encargo button:hover{color:var(--ink)}
+  .encargo button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+  .nuevo-encargo{display:flex;gap:6px}
+  .nuevo-encargo input{flex:1;min-width:0;font-family:var(--font-texto);font-size:12px;
+    padding:6px 8px;border:1px dashed var(--line-fuerte);background:transparent;
+    color:var(--ink);border-radius:2px}
+  .nuevo-encargo input::placeholder{color:var(--muted);opacity:.8}
+  .nuevo-encargo input:focus-visible{outline:2px solid var(--blue);outline-offset:1px;
+    border-style:solid}
+
+  /* ---------- estados ---------- */
+  .aviso{margin-top:16px;padding:11px 14px;border-left:2px solid var(--orange);
+    background:var(--surface);font-family:var(--font-texto);font-size:13px;
+    line-height:1.5;color:var(--muted)}
+  [hidden]{display:none!important}
+
+  @media (max-width:560px){
+    .envoltura{padding-inline:16px}
+    h1{font-size:26px}
+    .rejilla,.rejilla.composiciones{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+      gap:24px 14px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="envoltura">
+  <header>
+    <h1>Biblioteca ClaudeTec</h1>
+    <p class="bajada">Todo lo que la skill de marca puede poner en una pieza: los recursos
+      gráficos sobre los cuatro fondos en que pueden acabar, y las catorce composiciones de
+      carrusel. Di cuáles te gustan, sobre qué fondo aguanta cada uno y qué le cambiarías —
+      los encargos se acumulan aquí sin tocar el archivo.</p>
+    <div class="avance">
+      <span><b id="revisados">0</b> de <b id="total">0</b> revisados</span>
+      <span id="desglose"></span>
+      <span class="encargos-total" id="encargos-total"></span>
+    </div>
+    <div class="barra"><i id="barra"></i></div>
+    <div class="aviso" id="aviso" hidden></div>
+  </header>
+
+  <div class="controles">
+    <div class="grupo">
+      <span class="etiqueta">Fondo</span>
+      <div class="fondos" id="fondos"></div>
+    </div>
+    <div class="grupo">
+      <span class="etiqueta">Grupo</span>
+      <select id="filtro-grupo"><option value="">Todos</option></select>
+    </div>
+    <div class="grupo">
+      <span class="etiqueta">Ver</span>
+      <select id="filtro-estado">
+        <option value="">Todo</option>
+        <option value="pendiente">Sin revisar</option>
+        <option value="si">Con visto bueno</option>
+        <option value="no">Descartados</option>
+        <option value="encargos">Con encargos abiertos</option>
+      </select>
+    </div>
+    <div class="grupo">
+      <span class="etiqueta">Buscar</span>
+      <input type="search" id="buscar" placeholder="nombre de archivo">
+    </div>
+  </div>
+
+  <main id="lista"></main>
+</div>
+
+<script>
+const FONDOS = [
+  {id:'claro',   hex:'#faf9f5', nombre:'Crema'},
+  {id:'blanco',  hex:'#ffffff', nombre:'Blanco'},
+  {id:'naranja', hex:'#d97757', nombre:'Naranja'},
+  {id:'oscuro',  hex:'#141413', nombre:'Oscuro'}
+];
+const MARCABLES = ['claro','naranja','oscuro'];
+const GRUPOS = [{"carpeta": "logos", "tipo": "asset", "titulo": "Logos", "nota": "El asterisco y el wordmark oficiales.", "items": [{"id": "logos--claude-glyph", "ruta": "assets/logos/claude-glyph.svg", "nombre": "claude-glyph", "formato": "SVG + PNG", "medida": "1998 x 2000 vect.", "kb": 67}, {"id": "logos--claude-wordmark", "ruta": "assets/logos/claude-wordmark.svg", "nombre": "claude-wordmark", "formato": "SVG + PNG", "medida": "512 x 110 vect.", "kb": 42}]}, {"carpeta": "logos-claudetec", "tipo": "asset", "titulo": "Lockups", "nota": "ClaudeTec compuesto. Marca derivada: ver la advertencia del catalogo.", "items": [{"id": "logos-claudetec--claudetec--claro", "ruta": "assets/logos-claudetec/claudetec--claro.svg", "nombre": "claudetec--claro", "formato": "SVG + PNG", "medida": "5603 x 846 vect.", "kb": 107}, {"id": "logos-claudetec--claudetec--duotono-claro", "ruta": "assets/logos-claudetec/claudetec--duotono-claro.svg", "nombre": "claudetec--duotono-claro", "formato": "SVG + PNG", "medida": "5603 x 846 vect.", "kb": 109}, {"id": "logos-claudetec--claudetec--duotono", "ruta": "assets/logos-claudetec/claudetec--duotono.svg", "nombre": "claudetec--duotono", "formato": "SVG + PNG", "medida": "5603 x 846 vect.", "kb": 109}, {"id": "logos-claudetec--claudetec--monocromo-claro", "ruta": "assets/logos-claudetec/claudetec--monocromo-claro.svg", "nombre": "claudetec--monocromo-claro", "formato": "SVG + PNG", "medida": "5603 x 846 vect.", "kb": 103}, {"id": "logos-claudetec--claudetec", "ruta": "assets/logos-claudetec/claudetec.svg", "nombre": "claudetec", "formato": "SVG + PNG", "medida": "5603 x 846 vect.", "kb": 107}]}, {"carpeta": "ilustraciones", "tipo": "asset", "titulo": "Ilustraciones", "nota": "Line art a dos tintas, con sus variantes de color.", "items": [{"id": "ilustraciones--documento-nodos--azul", "ruta": "assets/ilustraciones/documento-nodos--azul.svg", "nombre": "documento-nodos--azul", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 136}, {"id": "ilustraciones--documento-nodos--claro", "ruta": "assets/ilustraciones/documento-nodos--claro.svg", "nombre": "documento-nodos--claro", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 135}, {"id": "ilustraciones--documento-nodos--verde", "ruta": "assets/ilustraciones/documento-nodos--verde.svg", "nombre": "documento-nodos--verde", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 135}, {"id": "ilustraciones--documento-nodos", "ruta": "assets/ilustraciones/documento-nodos.svg", "nombre": "documento-nodos", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 135}, {"id": "ilustraciones--globo-llaves--azul", "ruta": "assets/ilustraciones/globo-llaves--azul.svg", "nombre": "globo-llaves--azul", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 190}, {"id": "ilustraciones--globo-llaves--claro", "ruta": "assets/ilustraciones/globo-llaves--claro.svg", "nombre": "globo-llaves--claro", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 189}, {"id": "ilustraciones--globo-llaves--verde", "ruta": "assets/ilustraciones/globo-llaves--verde.svg", "nombre": "globo-llaves--verde", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 190}, {"id": "ilustraciones--globo-llaves", "ruta": "assets/ilustraciones/globo-llaves.svg", "nombre": "globo-llaves", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 190}, {"id": "ilustraciones--globo-red--azul", "ruta": "assets/ilustraciones/globo-red--azul.svg", "nombre": "globo-red--azul", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 168}, {"id": "ilustraciones--globo-red--claro", "ruta": "assets/ilustraciones/globo-red--claro.svg", "nombre": "globo-red--claro", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 167}, {"id": "ilustraciones--globo-red--verde", "ruta": "assets/ilustraciones/globo-red--verde.svg", "nombre": "globo-red--verde", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 168}, {"id": "ilustraciones--globo-red", "ruta": "assets/ilustraciones/globo-red.svg", "nombre": "globo-red", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 167}, {"id": "ilustraciones--lampara-escritura--azul", "ruta": "assets/ilustraciones/lampara-escritura--azul.svg", "nombre": "lampara-escritura--azul", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 176}, {"id": "ilustraciones--lampara-escritura--claro", "ruta": "assets/ilustraciones/lampara-escritura--claro.svg", "nombre": "lampara-escritura--claro", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 175}, {"id": "ilustraciones--lampara-escritura--verde", "ruta": "assets/ilustraciones/lampara-escritura--verde.svg", "nombre": "lampara-escritura--verde", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 176}, {"id": "ilustraciones--lampara-escritura", "ruta": "assets/ilustraciones/lampara-escritura.svg", "nombre": "lampara-escritura", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 176}, {"id": "ilustraciones--proyector-codigo--azul", "ruta": "assets/ilustraciones/proyector-codigo--azul.svg", "nombre": "proyector-codigo--azul", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 173}, {"id": "ilustraciones--proyector-codigo--claro", "ruta": "assets/ilustraciones/proyector-codigo--claro.svg", "nombre": "proyector-codigo--claro", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 173}, {"id": "ilustraciones--proyector-codigo--pantalla-clara", "ruta": "assets/ilustraciones/proyector-codigo--pantalla-clara.svg", "nombre": "proyector-codigo--pantalla-clara", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 173}, {"id": "ilustraciones--proyector-codigo--verde", "ruta": "assets/ilustraciones/proyector-codigo--verde.svg", "nombre": "proyector-codigo--verde", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 173}, {"id": "ilustraciones--proyector-codigo", "ruta": "assets/ilustraciones/proyector-codigo.svg", "nombre": "proyector-codigo", "formato": "SVG + PNG", "medida": "1080 x 1080 vect.", "kb": 173}]}, {"carpeta": "clawd", "tipo": "asset", "titulo": "Clawd", "nota": "La mascota, registro informal. No va en material institucional.", "items": [{"id": "clawd--clawd-base", "ruta": "assets/clawd/clawd-base.svg", "nombre": "clawd-base", "formato": "SVG + PNG", "medida": "16 x 16 vect.", "kb": 2}, {"id": "clawd--clawd-coffee", "ruta": "assets/clawd/clawd-coffee.png", "nombre": "clawd-coffee", "formato": "PNG", "medida": "616 x 364", "kb": 44}, {"id": "clawd--clawd-headphones", "ruta": "assets/clawd/clawd-headphones.svg", "nombre": "clawd-headphones", "formato": "SVG + PNG", "medida": "28 x 28 vect.", "kb": 66}, {"id": "clawd--clawd-search", "ruta": "assets/clawd/clawd-search.png", "nombre": "clawd-search", "formato": "PNG", "medida": "526 x 475", "kb": 73}, {"id": "clawd--clawd-skateboard", "ruta": "assets/clawd/clawd-skateboard.png", "nombre": "clawd-skateboard", "formato": "PNG", "medida": "498 x 501", "kb": 71}]}, {"carpeta": "iconos", "tipo": "asset", "titulo": "Iconos", "nota": "Dibujos con textura sobre transparente. Van sobre naranja, no sobre oscuro.", "items": [{"id": "iconos--cabeza-destello", "ruta": "assets/iconos/cabeza-destello.png", "nombre": "cabeza-destello", "formato": "PNG", "medida": "1080 x 1080", "kb": 187}, {"id": "iconos--cabeza-ondas", "ruta": "assets/iconos/cabeza-ondas.png", "nombre": "cabeza-ondas", "formato": "PNG", "medida": "1080 x 1080", "kb": 793}, {"id": "iconos--cabeza-red", "ruta": "assets/iconos/cabeza-red.png", "nombre": "cabeza-red", "formato": "PNG", "medida": "1080 x 1080", "kb": 695}, {"id": "iconos--columnas-grafica", "ruta": "assets/iconos/columnas-grafica.png", "nombre": "columnas-grafica", "formato": "PNG", "medida": "1080 x 1080", "kb": 538}, {"id": "iconos--faro", "ruta": "assets/iconos/faro.png", "nombre": "faro", "formato": "PNG", "medida": "1080 x 1080", "kb": 542}, {"id": "iconos--manos-alzadas", "ruta": "assets/iconos/manos-alzadas.png", "nombre": "manos-alzadas", "formato": "PNG", "medida": "1080 x 1080", "kb": 672}, {"id": "iconos--mazo", "ruta": "assets/iconos/mazo.png", "nombre": "mazo", "formato": "PNG", "medida": "1080 x 1080", "kb": 342}, {"id": "iconos--pendulo-newton", "ruta": "assets/iconos/pendulo-newton.png", "nombre": "pendulo-newton", "formato": "PNG", "medida": "1080 x 1080", "kb": 307}, {"id": "iconos--pluma-libro", "ruta": "assets/iconos/pluma-libro.png", "nombre": "pluma-libro", "formato": "PNG", "medida": "1080 x 1080", "kb": 486}, {"id": "iconos--rayo-red", "ruta": "assets/iconos/rayo-red.png", "nombre": "rayo-red", "formato": "PNG", "medida": "1080 x 1080", "kb": 104}, {"id": "iconos--templo-destello", "ruta": "assets/iconos/templo-destello.png", "nombre": "templo-destello", "formato": "PNG", "medida": "1080 x 1080", "kb": 596}, {"id": "iconos--templo", "ruta": "assets/iconos/templo.png", "nombre": "templo", "formato": "PNG", "medida": "1080 x 1080", "kb": 714}]}, {"carpeta": "fotos", "tipo": "asset", "titulo": "Fotos", "nota": "Fototeca base. El tratamiento se aplica por pieza con tratar_foto.py.", "items": [{"id": "fotos--expedition-femsa", "ruta": "assets/fotos/expedition-femsa.png", "nombre": "expedition-femsa", "formato": "PNG", "medida": "1920 x 1024", "kb": 1651}, {"id": "fotos--expedition-interior", "ruta": "assets/fotos/expedition-interior.png", "nombre": "expedition-interior", "formato": "PNG", "medida": "900 x 600", "kb": 366}, {"id": "fotos--junta-laptops", "ruta": "assets/fotos/junta-laptops.png", "nombre": "junta-laptops", "formato": "PNG", "medida": "1152 x 864", "kb": 603}, {"id": "fotos--mesa-redonda", "ruta": "assets/fotos/mesa-redonda.png", "nombre": "mesa-redonda", "formato": "PNG", "medida": "1456 x 817", "kb": 783}, {"id": "fotos--oficina-madera", "ruta": "assets/fotos/oficina-madera.png", "nombre": "oficina-madera", "formato": "PNG", "medida": "700 x 467", "kb": 238}, {"id": "fotos--open-space", "ruta": "assets/fotos/open-space.png", "nombre": "open-space", "formato": "PNG", "medida": "1152 x 864", "kb": 1301}, {"id": "fotos--pizarron-equipo", "ruta": "assets/fotos/pizarron-equipo.png", "nombre": "pizarron-equipo", "formato": "PNG", "medida": "516 x 387", "kb": 318}]}];
+const TODOS = GRUPOS.flatMap(g => g.items);
+
+const estado = new Map();     // id -> {veredicto, fondos, mejoras:[{t,f,hecho}]}
+const nodos = new Map();      // id -> {el, refs}
+const pendientes = new Map(); // id -> timeout
+let fondoActivo = 'claro';
+let db = null;
+
+const hexDe = id => (FONDOS.find(f => f.id === id) || FONDOS[0]).hex;
+const vacio = () => ({veredicto:null, fondos:{}, mejoras:[]});
+const registro = id => estado.get(id) || vacio();
+const abiertos = r => (r.mejoras || []).filter(m => !m.hecho).length;
+const esSangrado = ruta => ruta.includes('/fotos');
+
+function guardar(id){
+  if (!db) return;
+  clearTimeout(pendientes.get(id));
+  pendientes.set(id, setTimeout(() => {
+    const r = registro(id);
+    db.doc('veredictos/' + id).set({
+      veredicto: r.veredicto, fondos: r.fondos, mejoras: r.mejoras,
+      actualizado: new Date().toISOString()
+    }).catch(e => aviso('No se pudo guardar el último cambio (' + e.code + ').'));
+  }, 350));
+}
+
+function aviso(texto){
+  const a = document.getElementById('aviso');
+  a.textContent = texto; a.hidden = false;
+}
+
+function cambiar(id, fn){
+  const r = Object.assign(vacio(), registro(id));
+  r.fondos = Object.assign({}, r.fondos);
+  r.mejoras = (r.mejoras || []).slice();
+  fn(r);
+  estado.set(id, r);
+  guardar(id);
+  sincronizar(id);
+  resumen();
+  filtrar();
+}
+
+/* ---------- construccion ---------- */
+function ficha(item, grupo){
+  const el = document.createElement('article');
+  el.className = 'ficha' + (grupo.tipo === 'composicion' ? ' composicion' : '');
+  el.dataset.id = item.id;
+  el.dataset.nombre = (item.nombre + ' ' + (item.forma || '') + ' ' + (item.usos || '')).toLowerCase();
+
+  const lienzo = document.createElement('div');
+  lienzo.className = 'lienzo' + (esSangrado(item.ruta) ? ' sangra' : '');
+  const img = document.createElement('img');
+  img.src = item.ruta; img.alt = item.nombre; img.loading = 'lazy';
+  lienzo.appendChild(img);
+  let hex = null;
+  if (grupo.tipo !== 'composicion'){
+    lienzo.style.background = hexDe(fondoActivo);
+    hex = document.createElement('span');
+    hex.className = 'hex';
+    lienzo.appendChild(hex);
+  }
+  el.appendChild(lienzo);
+
+  const pie = document.createElement('div');
+  pie.className = 'pie';
+  const nombre = document.createElement('span');
+  nombre.className = 'nombre'; nombre.textContent = item.nombre;
+  const medida = document.createElement('span');
+  medida.className = 'medida'; medida.textContent = item.formato + ' · ' + item.medida;
+  pie.append(nombre, medida);
+  el.appendChild(pie);
+
+  if (item.forma){
+    const f = document.createElement('p');
+    f.className = 'forma';
+    f.textContent = item.forma;
+    const usos = document.createElement('em');
+    usos.textContent = item.usos;
+    f.appendChild(usos);
+    el.appendChild(f);
+  }
+
+  const acciones = document.createElement('div');
+  acciones.className = 'acciones';
+  const votos = {};
+  [['si','Me gusta'],['no','No']].forEach(([valor, texto]) => {
+    const b = document.createElement('button');
+    b.className = 'voto ' + valor; b.type = 'button'; b.textContent = texto;
+    b.onclick = () => cambiar(item.id, r => {
+      r.veredicto = r.veredicto === valor ? null : valor;
+    });
+    votos[valor] = b;
+    acciones.appendChild(b);
+  });
+  el.appendChild(acciones);
+
+  const marcas = {};
+  if (grupo.tipo !== 'composicion'){
+    const sobre = document.createElement('div');
+    sobre.className = 'sobre';
+    const lbl = document.createElement('span');
+    lbl.className = 'etiqueta'; lbl.textContent = 'Va en';
+    sobre.appendChild(lbl);
+    MARCABLES.forEach(fid => {
+      const b = document.createElement('button');
+      b.className = 'marca'; b.type = 'button';
+      b.style.background = hexDe(fid);
+      const f = FONDOS.find(x => x.id === fid);
+      b.title = f.nombre + ' — se ve bien / se pierde / sin marcar';
+      b.setAttribute('aria-label', 'Sobre fondo ' + f.nombre);
+      b.onclick = () => cambiar(item.id, r => {
+        const ciclo = {'':'ok', 'ok':'mal', 'mal':''};
+        r.fondos[fid] = ciclo[r.fondos[fid] || ''];
+        if (!r.fondos[fid]) delete r.fondos[fid];
+      });
+      marcas[fid] = b;
+      sobre.appendChild(b);
+    });
+    el.appendChild(sobre);
+  }
+
+  const lista = document.createElement('div');
+  lista.className = 'encargos';
+  el.appendChild(lista);
+
+  const nuevo = document.createElement('div');
+  nuevo.className = 'nuevo-encargo';
+  const campo = document.createElement('input');
+  campo.type = 'text';
+  campo.id = 'encargo-' + item.id;
+  campo.placeholder = 'Qué cambiar…';
+  campo.setAttribute('aria-label', 'Nuevo encargo para ' + item.nombre);
+  campo.onkeydown = ev => {
+    if (ev.key !== 'Enter') return;
+    const texto = campo.value.trim();
+    if (!texto) return;
+    campo.value = '';
+    cambiar(item.id, r => r.mejoras.push({t:texto, f:new Date().toISOString(), hecho:false}));
+    campo.focus();
+  };
+  nuevo.appendChild(campo);
+  el.appendChild(nuevo);
+
+  nodos.set(item.id, {el, lienzo, hex, lista, votos, marcas});
+  sincronizar(item.id);
+  return el;
+}
+
+/* ---------- sincronizacion estado -> DOM ---------- */
+function sincronizar(id){
+  const n = nodos.get(id);
+  if (!n) return;
+  const r = registro(id);
+
+  n.el.classList.toggle('si', r.veredicto === 'si');
+  n.el.classList.toggle('no', r.veredicto === 'no');
+  n.el.dataset.veredicto = r.veredicto || '';
+  n.el.dataset.abiertos = abiertos(r);
+
+  Object.entries(n.votos).forEach(([valor, b]) =>
+    b.setAttribute('aria-pressed', String(r.veredicto === valor)));
+  Object.entries(n.marcas).forEach(([fid, b]) =>
+    b.dataset.estado = r.fondos[fid] || '');
+
+  n.lista.innerHTML = '';
+  (r.mejoras || []).forEach((m, i) => {
+    const fila = document.createElement('div');
+    fila.className = 'encargo' + (m.hecho ? ' hecho' : '');
+    const p = document.createElement('p');
+    p.textContent = m.t;
+    const listo = document.createElement('button');
+    listo.type = 'button';
+    listo.textContent = m.hecho ? '↺' : '✓';
+    listo.title = m.hecho ? 'Volver a abrir' : 'Marcar como hecho';
+    listo.onclick = () => cambiar(id, x => { x.mejoras[i] = Object.assign({}, x.mejoras[i], {hecho: !x.mejoras[i].hecho}); });
+    const quitar = document.createElement('button');
+    quitar.type = 'button'; quitar.textContent = '×'; quitar.title = 'Borrar encargo';
+    quitar.onclick = () => cambiar(id, x => x.mejoras.splice(i, 1));
+    fila.append(p, listo, quitar);
+    n.lista.appendChild(fila);
+  });
+}
+
+/* ---------- pintado general ---------- */
+function pintarFondos(){
+  const cont = document.getElementById('fondos');
+  cont.innerHTML = '';
+  FONDOS.forEach(f => {
+    const b = document.createElement('button');
+    b.className = 'fondo'; b.type = 'button'; b.style.background = f.hex;
+    b.title = f.nombre + ' ' + f.hex;
+    b.setAttribute('aria-label', 'Ver sobre fondo ' + f.nombre);
+    b.setAttribute('aria-pressed', String(f.id === fondoActivo));
+    b.onclick = () => { fondoActivo = f.id; pintarFondos(); aplicarFondo(); };
+    cont.appendChild(b);
+  });
+}
+
+function aplicarFondo(){
+  const hex = hexDe(fondoActivo);
+  nodos.forEach(n => {
+    if (!n.hex) return;            // las composiciones traen su propio fondo
+    n.lienzo.style.background = hex;
+    n.hex.textContent = hex.toUpperCase();
+  });
+}
+
+function pintarTodo(){
+  const lista = document.getElementById('lista');
+  const sel = document.getElementById('filtro-grupo');
+  GRUPOS.forEach(g => {
+    sel.appendChild(new Option(g.titulo, g.carpeta));
+    const s = document.createElement('section');
+    s.dataset.grupo = g.carpeta;
+    const cabeza = document.createElement('div');
+    cabeza.className = 'cabeza-seccion';
+    const h = document.createElement('h2'); h.textContent = g.titulo;
+    const c = document.createElement('span'); c.className = 'cuenta';
+    c.textContent = g.items.length + ' archivos';
+    const n = document.createElement('p'); n.className = 'nota-seccion'; n.textContent = g.nota;
+    cabeza.append(h, c, n);
+    s.appendChild(cabeza);
+    const rejilla = document.createElement('div');
+    rejilla.className = 'rejilla' + (g.tipo === 'composicion' ? ' composiciones' : '');
+    g.items.forEach(item => rejilla.appendChild(ficha(item, g)));
+    s.appendChild(rejilla);
+    lista.appendChild(s);
+  });
+  aplicarFondo();
+  resumen();
+}
+
+function resumen(){
+  let si = 0, no = 0, enc = 0;
+  estado.forEach(r => {
+    if (r.veredicto === 'si') si++; else if (r.veredicto === 'no') no++;
+    enc += abiertos(r);
+  });
+  document.getElementById('total').textContent = TODOS.length;
+  document.getElementById('revisados').textContent = si + no;
+  document.getElementById('desglose').textContent =
+    (si + no) ? '· ' + si + ' con visto bueno, ' + no + ' descartados' : '';
+  const e = document.getElementById('encargos-total');
+  e.innerHTML = '';
+  if (enc){
+    e.append('· ');
+    const b = document.createElement('b'); b.textContent = enc;
+    e.append(b, enc === 1 ? ' encargo abierto' : ' encargos abiertos');
+  }
+  document.getElementById('barra').style.width =
+    TODOS.length ? ((si + no) / TODOS.length * 100) + '%' : '0';
+}
+
+function filtrar(){
+  const grupo = document.getElementById('filtro-grupo').value;
+  const est = document.getElementById('filtro-estado').value;
+  const texto = document.getElementById('buscar').value.trim().toLowerCase();
+
+  document.querySelectorAll('section').forEach(s => {
+    let visibles = 0;
+    s.querySelectorAll('.ficha').forEach(f => {
+      const v = f.dataset.veredicto || '';
+      const ok = (!grupo || s.dataset.grupo === grupo)
+              && (!texto || f.dataset.nombre.includes(texto))
+              && (est === ''
+                  || (est === 'pendiente' && !v)
+                  || (est === 'si' && v === 'si')
+                  || (est === 'no' && v === 'no')
+                  || (est === 'encargos' && Number(f.dataset.abiertos) > 0));
+      f.hidden = !ok;
+      if (ok) visibles++;
+    });
+    s.hidden = visibles === 0;
+    s.querySelector('.cuenta').textContent =
+      visibles + (visibles === 1 ? ' archivo' : ' archivos');
+  });
+}
+
+/* ---------- arranque ---------- */
+pintarFondos();
+pintarTodo();
+['filtro-grupo','filtro-estado','buscar'].forEach(id =>
+  document.getElementById(id).addEventListener('input', filtrar));
+
+(async () => {
+  const api = window.claude && window.claude.use ? await window.claude.use('db') : null;
+  if (!api){
+    aviso('Esta vista no está guardando: lo que marques se pierde al recargar.');
+    return;
+  }
+  db = api;
+  db.collection('veredictos').onSnapshot(snap => {
+    snap.docChanges().forEach(c => {
+      const d = c.doc.data() || {};
+      if (c.type === 'removed') estado.delete(c.doc.id);
+      else estado.set(c.doc.id, {
+        veredicto: d.veredicto || null,
+        fondos: d.fondos || {},
+        mejoras: Array.isArray(d.mejoras) ? d.mejoras : []
+      });
+      // No repinta la ficha cuyo campo de encargo estas escribiendo.
+      if (document.activeElement && document.activeElement.id === 'encargo-' + c.doc.id) return;
+      sincronizar(c.doc.id);
+    });
+    resumen();
+    filtrar();
+  }, e => aviso('Se perdió la conexión con lo guardado (' + e.code + '). Recarga la página.'));
+})();
+</script>

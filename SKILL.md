@@ -228,3 +228,8 @@ Para las personas del equipo, no para el modelo: `README.md` (qué hace la skill
 y cómo se mantiene), `MANUAL-COMUNICACION.md` (cómo escribir un encargo y
 revisar antes de publicar), `PENDIENTES.md` (decisiones abiertas y qué falta),
 `VERSION.md` (qué entró en cada versión), `references/bitacora.md` (historial).
+
+Dos PDF se arman solos y son los que se mandan fuera del equipo:
+`scripts/guia_pdf.py` (cómo se usan las tres skills y por dónde se hablan — el
+que acompaña al ZIP) y `scripts/manual_pdf.py` (cómo se compone una pieza, con
+muestras). El manual necesita las imágenes de la rama `piezas`; la guía no.

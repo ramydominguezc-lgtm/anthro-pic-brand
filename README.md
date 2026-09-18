@@ -1,11 +1,14 @@
 # anthro-pic-brand — léeme antes de usarla
 
-> **Este repositorio es el archivo, no la skill que se instala.** Lleva de más
-> las piezas terminadas (`piezas-aprobadas/`), la inspiración (`referencias/`) y
-> el banco de trabajo (`salida/`), que son la evidencia detrás de las reglas
-> pero que **ningún paso del flujo abre**. Para instalarla se arma un ZIP con
-> `python3 scripts/empaquetar.py`, que deja fuera todo eso: 143 archivos y
-> 16.6 MB, frente a los 225 y 34.9 MB de aquí.
+> **`main` es la skill. Las imágenes están en la rama `piezas`.** Aquí sólo vive
+> lo que el flujo lee al componer: `SKILL.md`, `references/`, `scripts/` y
+> `assets/`. Las piezas terminadas y la inspiración son la evidencia detrás de
+> las reglas, pero **ningún paso del flujo las abre**, así que se mudaron a una
+> rama aparte. Para verlas sin cambiar de rama —cambiar de rama te las borraría
+> del escritorio—: `git worktree add ../piezas-archivo piezas`.
+>
+> Para instalar la skill se arma un ZIP con `python3 scripts/empaquetar.py`:
+> 143 archivos y 16.6 MB.
 >
 > Las otras dos skills del conjunto, en repositorios aparte porque se instalan
 > por separado:
@@ -28,6 +31,18 @@ python3 scripts/empaquetar.py     # arma el ZIP que se sube a Claude web
 En **Claude Code** basta con enlazar la carpeta a `~/.claude/skills/`; en
 Windows, `mklink /J "%USERPROFILE%\.claude\skills\anthro-pic-brand" "ruta"`.
 En **claude.ai web** y en **desktop** se sube el ZIP.
+
+**Para mandarla a alguien**, el ZIP va acompañado de la guía en PDF:
+
+```bash
+python3 scripts/guia_pdf.py          # salida/guia-tres-skills.pdf, 6 páginas
+```
+
+Explica las tres skills, cómo se instalan, cómo se pide una pieza y por dónde se
+hablan entre ellas. No abre `piezas-aprobadas/`, así que se arma desde un clon
+limpio de `main`. El otro PDF, `scripts/manual_pdf.py`, enseña a **componer** y
+lleva muestras de piezas: ése sí las necesita, y hay que traerlas antes con
+`git worktree add ../piezas-archivo piezas`.
 
 Sistema de identidad visual de Claude y Anthropic para las piezas de ClaudeTec.
 Este archivo es para **personas**. El `SKILL.md` de al lado es para Claude: es más

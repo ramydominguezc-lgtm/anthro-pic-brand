@@ -8,7 +8,7 @@ y qué le falta.
 
 ## Versión instalada
 
-**v2.15** — 17 de septiembre de 2026. Veredicto de la tanda 02 aplicado, la pixel cambia a Press Start 2P y `aire_max` deja de estar ciega.
+**v2.16** — 17 de septiembre de 2026. `main` se queda con la skill y las imágenes se mudan a la rama `piezas`; guía de uso de las tres skills en PDF.
 
 Las versiones son `MAYOR.MENOR`: la **mayor** sube cuando cambia cómo se usa la
 skill (v1 → v2 fue adelgazar el `SKILL.md` y sacar la animación); la **menor**,
@@ -96,15 +96,22 @@ de contenedor desde la última versión subida. Las escrituras nunca regresan so
 
 **Regla: una sesión que toca la skill y no termina en commit y ZIP, no ocurrió.**
 
-Desde la v2.15 hay dos destinos y son cosas distintas:
+Desde la v2.16 hay tres destinos y son cosas distintas:
 
 | | Qué es | Qué lleva |
 |---|---|---|
-| **El repositorio** | el archivo. `github.com/ramydominguezc-lgtm/anthro-pic-brand`, privado | todo: 225 archivos, 34.9 MB |
-| **El ZIP** | la herramienta que se instala | solo lo que el flujo lee: 143 archivos, 14.8 MB comprimido |
+| **`main`** | la skill, completa | lo que el flujo lee: 176 archivos, 20 MB |
+| **rama `piezas`** | el archivo visual | las 15 piezas aprobadas y las 18 capturas de inspiración: 51 archivos, 15 MB |
+| **El ZIP** | la herramienta que se instala | `main` menos `salida/`: 143 archivos, 14.8 MB comprimido |
 
-Lo que sale del ZIP **no se pierde**, está en el repositorio. Esa es toda la
-razón por la que se puede adelgazar sin miedo.
+Lo que sale del ZIP **no se pierde**, está en `main`. Lo que salió de `main`
+está en `piezas`. Esa cadena es toda la razón por la que se puede adelgazar sin
+miedo en cada paso.
+
+**Las imágenes siguen en tu carpeta de trabajo**, ignoradas por `.gitignore`, no
+borradas. Por eso `manual_pdf.py` sigue funcionando en local. En un clon nuevo
+de `main` no están: ahí hay que traerlas con
+`git worktree add ../piezas-archivo piezas` antes de armar el manual.
 
 Al cerrar cualquier sesión de trabajo sobre la skill:
 
@@ -133,6 +140,7 @@ Una línea por versión. El detalle está más abajo.
 
 | Versión | Fecha | Qué entró |
 |---|---|---|
+| **v2.16** | 17 sep 2026 | **`main` se queda solo con lo que el flujo lee.** Las 15 piezas aprobadas y las 18 capturas de inspiración se mudan a la rama huérfana **`piezas`** (51 archivos, 15 MB): no comparten historia con `main`, así que nunca vuelven solas en un merge. Siguen en la carpeta de trabajo, ignoradas, no borradas. `scripts/guia_pdf.py` arma la guía de uso de las tres skills —qué pide cada una, en qué orden y por dónde se hablan— para mandarla a quien no va a leer un `.md` |
 | **v2.15** | 17 sep 2026 | Veredicto de Ramses sobre la tanda 02 aplicado: 03 con bullets más grandes, **06 y 07 rehechas enteras**, 08 con la lista reorganizada, 10 con tipografía nueva y **Clawd caminando sobre la tarjeta** (sale también en MP4). **`--font-pixel` pasa de Pixelify Sans a Press Start 2P**: la redondeada no se lee (la `D` se ve `O`); cotejadas cuatro candidatas. **Bug de `analizar_referencia.py`**: `aire_max` tomaba como fondo el color de la esquina, así que sobre fondo oscuro o bajo una trama daba 0 con 300-400 px muertos a la vista; ahora el fondo es el color más frecuente y hay `aire_fiable` para decir cuándo el número no significa nada. `collage_animado.py` ajusta solo el cuerpo del titular al ancho de la tarjeta |
 | **v2.14** | 17 sep 2026 | `salida/tanda_fotos.py`: diez piezas con foto, **ninguna repite geometría** con las cinco aprobadas ni entre sí, en `piezas-aprobadas/tanda-02-imagenes/`. `entorno.py` sondea qué se puede hacer en Claude Code, desktop o web y qué se pierde sin lo que falte. `manual_pdf.py` arma el manual de 5 páginas con muestras vivas. El ZIP deja de llevar `salida/` |
 | **v2.13** | 17 sep 2026 | `assets/lockups/` renombrada a **`assets/logos-claudetec/`** y las 33 citas actualizadas. `enlaces.py` ahora también revisa los **nombres sueltos de carpeta** en las listas `CARPETAS` de los scripts: cinco apuntaban al nombre viejo y `biblioteca.py` inventariaba 65 assets en vez de 75 sin fallar. Sombra acotada aprobada. Patrocinios entregados y retirados de `salida/` |

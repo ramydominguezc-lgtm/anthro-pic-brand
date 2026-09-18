@@ -22,3 +22,9 @@ assets-canva/
 .DS_Store
 Thumbs.db
 ~$*
+
+# Las imagenes viven en la rama `piezas`, no en `main`. Aqui se ignoran para que
+# sigan existiendo en tu carpeta de trabajo sin volver a entrar a `main` solas.
+# Para verlas sin cambiar de rama:  git worktree add ../piezas-archivo piezas
+piezas-aprobadas/
+referencias/

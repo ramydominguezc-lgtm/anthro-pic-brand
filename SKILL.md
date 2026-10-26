@@ -78,6 +78,7 @@ No leas todo. Abre solo lo que aplica:
 | **Elegir el fondo de una pieza sin foto** | `assets/templates/fondos-color.css` — 11 tramas, los dos huecos de imagen y el juego de colores |
 | **Una pieza que se monta sola (imagen + vídeo)** | `scripts/collage_animado.py` + el apartado de collage en `references/capas.md` |
 | Montar el Brand Kit en Canva | `references/guia-canva.md` |
+| **Cierre de video / final de reel** (logo ClaudeTec animado, réplica del cierre de Claude) | `assets/animaciones/cierre-claudetec/README.md` + `scripts/cierre_claudetec.py` |
 | Animar a Clawd, o un label de carga (`✻ Thinking…`) | skills aparte: `clawd-biblioteca` entrega lo que ya existe; `clawd-animaciones` genera lo nuevo |
 | Saber qué hace cada script | `references/scripts.md` |
 | Diseñar láminas de carrusel | `references/laminas-carrusel.md` |

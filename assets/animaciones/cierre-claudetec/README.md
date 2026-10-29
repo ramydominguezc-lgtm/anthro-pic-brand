@@ -40,3 +40,21 @@ python scripts/cierre_claudetec.py salida.mp4 --fondo "#141413" --clara     # fo
 ```
 
 Solo necesita Pillow y ffmpeg.
+
+## Colores aprobados (28/10/2026)
+
+En una serie de reels **no se repite siempre el durazno**: se alterna uno por
+pieza. Estos cinco combinan con la marca y con las tomas del evento.
+
+| Fondo | Color | Bandera |
+|---|---|---|
+| crema | `#faf9f5` | — |
+| blanco | `#ffffff` | — |
+| gris claro | `#e8e6dc` | — |
+| oscuro | `#141413` | `--clara` (palabra y estrella claras) |
+| durazno | `#e3c9bb` | — (el de la referencia) |
+
+```bash
+python scripts/cierre_claudetec.py reel-crema.mp4 --fondo "#faf9f5"
+python scripts/cierre_claudetec.py post-gris.mp4 --fondo "#e8e6dc" --ancho 1080 --alto 1350 --logo 620
+```

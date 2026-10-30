@@ -21,6 +21,8 @@ En `scripts/`, todos con `--help`. Los que se usan al hacer una pieza:
 | `lockup_variantes.py` | Reparte el color entre los glifos del lockup de ClaudeTec y saca SVG + PNG de cada variante. |
 | `preparar_canva.py` | Arma `assets-canva/` con los archivos a subir, numerados. |
 | `cierre_claudetec.py` | Cierre animado del logo ClaudeTec (réplica cuadro a cuadro del cierre de Claude) a cualquier medida, fondo o con alfa. Va al final de cada reel. |
+| `render_life.py` | Módulo LiFE: renderiza una plantilla de `assets/life/plantillas/` a PNG con medida exacta. |
+| `fuentes_life.sh` | Módulo LiFE: instala Poppins, Inter y Lora en `node_modules/` para las plantillas de otros grupos. |
 | `inspeccionar.py` | Convierte una imagen en rejilla de texto cuando el visor no funciona. |
 
 Mantenimiento (solo al cambiar la biblioteca; piden paquetes extra):

@@ -1,6 +1,6 @@
 ---
 name: anthro-pic-brand
-description: Sistema de identidad visual de Anthropic y Claude — paleta, tipografía, composición y biblioteca de assets. Úsala al producir o revisar cualquier pieza con marca Claude o Anthropic (post, story, carrusel, cartel, slide, banner, UI) en cualquier herramienta, y cuando pidan "que se vea como Claude".
+description: Sistema de identidad visual de Anthropic y Claude — paleta, tipografía, composición y biblioteca de assets. Úsala al producir o revisar cualquier pieza con marca Claude o Anthropic (post, story, carrusel, cartel, slide, banner, UI) en cualquier herramienta, y cuando pidan "que se vea como Claude". Incluye un módulo complementario con los lineamientos LiFE de grupos estudiantiles del Tec (bloque LiFE, jerarquía de logos, diplomas, texto de difusión) que solo se abre en piezas públicas de un grupo estudiantil.
 ---
 
 # Anthropic / Claude — sistema de marca
@@ -80,6 +80,7 @@ No leas todo. Abre solo lo que aplica:
 | Montar el Brand Kit en Canva | `references/guia-canva.md` |
 | **Cierre de video / final de reel** (logo ClaudeTec animado, réplica del cierre de Claude) | `assets/animaciones/cierre-claudetec/README.md` + `scripts/cierre_claudetec.py` |
 | Animar a Clawd, o un label de carga (`✻ Thinking…`) | skills aparte: `clawd-biblioteca` entrega lo que ya existe; `clawd-animaciones` genera lo nuevo |
+| **Pieza pública de un grupo estudiantil, diploma o duda sobre el logo LiFE** | `references/life/grupos-estudiantiles.md` — módulo complementario, solo en esos casos |
 | Saber qué hace cada script | `references/scripts.md` |
 | Diseñar láminas de carrusel | `references/laminas-carrusel.md` |
 
@@ -202,9 +203,17 @@ Canva, vectorizado— y lo que necesita cada uno, en `references/scripts.md`.
 
 ## Piezas de grupos estudiantiles del Tec
 
-Esta skill define el lenguaje visual, **no la reglamentación**. El logo LiFE, la
-posición del logo del grupo y los elementos obligatorios los manda la skill
-`publicaciones-grupos-estudiantiles`. Ante conflicto, gana la regla del Tec.
+La skill principal define el lenguaje visual; **la reglamentación del Tec vive
+en un módulo complementario**: `references/life/grupos-estudiantiles.md`, con
+los logos en `assets/life/logos/` y plantillas para otros grupos en
+`assets/life/plantillas/`. El bloque LiFE, la jerarquía de logos, el contenido
+obligatorio y los diplomas salen de ahí. Ante conflicto, gana la regla del Tec.
+
+**No se abre en cada pieza.** Solo cuando la pieza es publicidad pública de un
+grupo estudiantil (post, story, flyer, cartel), un diploma o constancia, o
+preguntan por el logo LiFE. Un recurso gráfico, una exploración o una pieza con
+marca Claude que no es difusión del grupo no lo lleva. Si no está claro,
+pregunta.
 
 ## Checklist antes de entregar
 

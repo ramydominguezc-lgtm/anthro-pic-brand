@@ -114,7 +114,7 @@ entre veinte minutos y treinta segundos por pieza.
 composiciones, no piezas publicables. Toda pieza pública de un grupo estudiantil
 lo lleva, **más pequeño que el logo de ClaudeTec**, y la pieza debe dejar claro
 que ClaudeTec es un grupo estudiantil del Tec de Monterrey y no una activación
-oficial de Anthropic. Detalle en la skill `publicaciones-grupos-estudiantiles`.
+oficial de Anthropic. Detalle en el módulo `references/life/grupos-estudiantiles.md`; los logos, en `assets/life/logos/`.
 
 **Pasa la pieza por el validador.** Exporta el PNG y corre
 `python3 scripts/validar.py pieza.png`. Tarda diez segundos y atrapa lo que el

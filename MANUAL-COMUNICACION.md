@@ -122,7 +122,9 @@ Tres cosas, en este orden.
 composiciones, no piezas publicables. Toda pieza pública de un grupo estudiantil
 lo lleva, **más pequeño que el logo de ClaudeTec**, y debe quedar claro que
 ClaudeTec es un grupo estudiantil del Tec de Monterrey, no una activación oficial
-de Anthropic. Pídelo explícitamente: «añade el bloque LiFE».
+de Anthropic. Pídelo explícitamente: «añade el bloque LiFE». Los logos oficiales
+están en `assets/life/logos/` y las reglas completas en el módulo
+`references/life/grupos-estudiantiles.md`.
 
 **2. El validador.** Exporta el PNG y corre:
 

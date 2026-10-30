@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<!--
+  Story / Reel 1080x1920 — grupos estudiantiles Tec
+  Render:  python3 scripts/render_life.py assets/life/plantillas/story-1080x1920.html out/story.png --width 1080 --height 1920
+
+  Zona segura: 250px arriba y 320px abajo. La UI de Instagram (usuario, barra de
+  responder, stickers) tapa esas franjas; nada de texto ni el logo LiFE puede caer
+  ahí. La guía .safe está comentada al final: descoméntala para revisar, y vuelve
+  a comentarla antes del render final.
+
+  Esta variante viene en oscuro. Para versión clara: en .canvas usa
+  background:var(--fondo); color:var(--texto); y cambia el logo LiFE al negro.
+-->
+<style>
+  @font-face { font-family:'Poppins'; font-weight:700;
+    src:url('../../../node_modules/@fontsource/poppins/files/poppins-latin-700-normal.woff2') format('woff2'); }
+  @font-face { font-family:'Poppins'; font-weight:600;
+    src:url('../../../node_modules/@fontsource/poppins/files/poppins-latin-600-normal.woff2') format('woff2'); }
+  @font-face { font-family:'Inter'; font-weight:400;
+    src:url('../../../node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2') format('woff2'); }
+  @font-face { font-family:'Inter'; font-weight:500;
+    src:url('../../../node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2') format('woff2'); }
+  @font-face { font-family:'Inter'; font-weight:600;
+    src:url('../../../node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2') format('woff2'); }
+
+  :root{
+    /* ---------- IDENTIDAD DEL GRUPO — cambiar aquí ----------
+       Estos valores son PLACEHOLDERS neutros, no una paleta que deba
+       usarse tal cual. Sustitúyelos por los del grupo antes de producir. */
+    --acento:#3D3D3D;        /* PLACEHOLDER */
+    --fondo:#FFFFFF;
+    --texto:#1A1A1A;
+    --apoyo:#E6E6E6;
+    --fondo-oscuro:#1A1A1A;
+    --texto-claro:#FFFFFF;
+    --titulares:'Poppins';
+    --cuerpo:'Inter';
+    /* -------------------------------------------------------- */
+    --soft:#9A9A9A;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1920px;overflow:hidden}
+
+  .canvas{position:relative;width:1080px;height:1920px;background:var(--fondo-oscuro);
+          color:var(--texto-claro);font-family:var(--cuerpo),'Liberation Sans',sans-serif;
+          padding:280px 96px 350px;display:flex;flex-direction:column}
+
+  .arco{position:absolute;left:-200px;bottom:-260px;width:760px;height:760px;
+        border-radius:50%;background:var(--acento);opacity:.25}
+  .canvas > *{position:relative;z-index:1}
+
+  .marca{font-family:var(--titulares),sans-serif;font-weight:700;font-size:48px;
+         letter-spacing:-.02em;margin-bottom:auto}
+  .marca span{color:var(--acento)}
+
+  .kicker{font-size:30px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+          color:var(--acento);margin-bottom:28px}
+  h1{font-family:var(--titulares),sans-serif;font-weight:700;font-size:128px;line-height:.96;
+     letter-spacing:-.03em;margin-bottom:36px}
+  .gancho{font-size:42px;line-height:1.35;color:var(--soft);margin-bottom:64px}
+
+  .datos{display:flex;flex-direction:column;gap:22px;margin-bottom:60px;font-size:42px;font-weight:500}
+  .dato{display:flex;align-items:center;gap:22px}
+  .dato .ic{width:16px;height:16px;flex:0 0 16px;border-radius:50%;background:var(--acento)}
+
+  .cta{align-self:flex-start;background:var(--acento);color:#fff;font-weight:600;
+       font-size:36px;padding:24px 40px;border-radius:999px;margin-bottom:70px}
+
+  /* Bloque LiFE dentro de zona segura, con su área de respeto vía padding */
+  .life{margin-top:auto;padding:16px 22px;align-self:flex-start;display:flex;align-items:center}
+  .life img{height:58px;width:auto;display:block}
+  .life.cintilla{background:#FFFFFF;border-radius:12px}
+
+  /* Guía de zona segura — solo para revisar */
+  .safe{position:absolute;inset:0;z-index:5;pointer-events:none}
+  .safe i{position:absolute;left:0;right:0;background:rgba(61,61,61,.18);
+          border-block:2px dashed rgba(61,61,61,.7)}
+  .safe i.top{top:0;height:250px}
+  .safe i.bot{bottom:0;height:320px}
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="arco"></div>
+
+  <div class="marca">Grupo<span>Estudiantil</span></div>
+
+  <div class="kicker">Esta semana</div>
+  <h1>Título del evento</h1>
+  <p class="gancho">Una línea corta de gancho.</p>
+
+  <div class="datos">
+    <div class="dato"><span class="ic"></span> Jue 14 de agosto · 17:00 h</div>
+    <div class="dato"><span class="ic"></span> Aula Magna, Aulas IV</div>
+  </div>
+
+  <div class="cta">Desliza para registrarte ↑</div>
+
+  <div class="life">
+    <img src="../logos/life-ge_blanco_flor-color.png" alt="LiFE | Grupos Estudiantiles">
+  </div>
+
+  <!-- <div class="safe"><i class="top"></i><i class="bot"></i></div> -->
+</div>
+</body>
+</html>

@@ -36,22 +36,29 @@ clip-path:polygon(0 1.2%,18% 0,42% 1.6%,71% .3%,100% 1.4%,
                   100% 98.4%,74% 100%,45% 98.6%,20% 99.8%,0 98.6%);
 ```
 
-## 3 · Chips flotantes
+## 3 · Label de carga en la esquina
 
-Etiquetas blancas pequeñas, rotadas 2–4 grados, con el asterisco de Claude y un
-texto corto. Se montan sobre el titular o cruzan el borde de una tarjeta. En las
-referencias dicen cosas como "Catching up…" o "Cooking…" — comentario, no
-información.
+Una label animada de la biblioteca de Clawd (`✻ Working…`, `Pondering…`), en
+inglés y como **detalle mínimo**. Ramses rechazó la versión anterior (chips
+blancos rotados, 3–4 por pieza, encima del titular) el 28/10/2026: *"roban
+mucho protagonismo"*.
+
+- **Solo la palabra animada.** Sin fondo blanco, sin caja, sin borde ni píldora.
+  Sobre foto, una sombra suave (`drop-shadow(0 1px 3px rgba(20,20,19,.45))`)
+  basta para que se lea.
+- **Siempre horizontal.** Nada de rotarla.
+- **En una esquina**, superior o inferior. Nunca centrada, nunca sobre el
+  titular ni sobre una cara. En reels, dentro de la zona segura (250 px arriba,
+  320 px abajo).
+- **Pequeña:** 44–60 px de alto de renglón en 1080 px de ancho.
+- **Cuántas:** 1–2 por reel como máximo. En posts y carruseles, de preferencia
+  ninguna; una en toda la pieza como mucho.
+- **Ante la duda, quítala.** La pieza no la necesita.
 
 ```css
-.chip{position:absolute; background:#fff; border-radius:11px; padding:9px 17px;
-      font:600 21px 'Poppins',sans-serif; display:flex; gap:10px;
-      border:1.5px solid rgba(20,20,19,.10)}
-.chip.a{top:116px; left:96px; transform:rotate(-4deg)}
-.chip.b{top:186px; right:104px; transform:rotate(3deg)}
+.label-carga{position:absolute; top:270px; left:70px; height:60px;
+             filter:drop-shadow(0 1px 3px rgba(20,20,19,.45))}  /* GIF/PNG -claro, sin caja */
 ```
-
-Tres o cuatro por pieza. Uno solo se ve accidental; ocho se ve a desorden.
 
 ## 4 · Píldora de estado sólida
 

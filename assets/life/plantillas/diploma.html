@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<!--
+  Constancia de participación (A4 horizontal, 3508x2480 @300dpi)
+  Render:  python3 scripts/render_life.py assets/life/plantillas/diploma.html out/diploma.png --width 3508 --height 2480
+
+  REGLA DEL MANUAL: un diploma de grupo estudiantil solo puede llevar
+    1) el logo del Tec (la flama),
+    2) el nombre del grupo estudiantil,
+    3) las firmas de presidencia y de el/la asesor/a.
+  NO lleva el bloque LiFE + Grupos Estudiantiles ni logotipo gráfico del grupo.
+  El formato editable oficial se le pide al Líder de Portafolio, y el diploma se
+  valida con él antes de imprimir. Esta plantilla es un borrador para revisar
+  contenido y redacción, no un sustituto del formato institucional.
+
+  Nota: los archivos en assets/life/logos/tec/ son el logotipo tipográfico "TEC".
+  Si el manual pide la flama, pídele ese archivo al Líder de Portafolio y
+  sustitúyelo aquí.
+-->
+<style>
+  @font-face { font-family:'Poppins'; font-weight:700;
+    src:url('../../../node_modules/@fontsource/poppins/files/poppins-latin-700-normal.woff2') format('woff2'); }
+  @font-face { font-family:'Poppins'; font-weight:600;
+    src:url('../../../node_modules/@fontsource/poppins/files/poppins-latin-600-normal.woff2') format('woff2'); }
+  @font-face { font-family:'Lora'; font-weight:400;
+    src:url('../../../node_modules/@fontsource/lora/files/lora-latin-400-normal.woff2') format('woff2'); }
+  @font-face { font-family:'Inter'; font-weight:400;
+    src:url('../../../node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2') format('woff2'); }
+  @font-face { font-family:'Inter'; font-weight:500;
+    src:url('../../../node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2') format('woff2'); }
+
+  :root{--tinta:#1A1A1A;--papel:#FFFFFF;--acento:#3D3D3D;
+        --linea:#E0E0E0;--muted:#5C5C5C}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:3508px;height:2480px;overflow:hidden}
+
+  .hoja{position:relative;width:3508px;height:2480px;background:var(--papel);
+        color:var(--tinta);font-family:'Inter','Liberation Sans',sans-serif;
+        padding:220px 300px 200px;display:flex;flex-direction:column;align-items:center;
+        text-align:center}
+  .hoja::before{content:'';position:absolute;inset:90px;border:6px solid var(--linea)}
+  .hoja::after{content:'';position:absolute;left:90px;right:90px;top:90px;height:26px;
+               background:var(--acento)}
+  .hoja > *{position:relative;z-index:1}
+
+  .tec img{height:190px;width:auto;display:block;margin:0 auto 90px}
+
+  .tipo{font-size:44px;font-weight:500;letter-spacing:.34em;text-transform:uppercase;
+        color:var(--muted);margin-bottom:60px}
+  .otorga{font-family:'Lora',serif;font-size:56px;color:var(--muted);margin-bottom:46px}
+  .nombre{font-family:'Poppins',sans-serif;font-weight:700;font-size:170px;line-height:1.05;
+          letter-spacing:-.02em;margin-bottom:56px}
+  .linea{width:1700px;height:4px;background:var(--linea);margin:0 auto 56px}
+  .cuerpo{font-family:'Lora',serif;font-size:60px;line-height:1.55;max-width:2500px;
+          color:var(--tinta);margin-bottom:auto}
+  .cuerpo b{font-weight:400;color:var(--acento)}
+
+  .firmas{display:flex;justify-content:center;gap:420px;width:100%;margin-top:120px}
+  .firma{width:820px}
+  .firma .rule{height:4px;background:var(--tinta);margin-bottom:26px}
+  .firma .quien{font-size:46px;font-weight:500}
+  .firma .cargo{font-size:38px;color:var(--muted);margin-top:10px}
+
+  .fecha{margin-top:70px;font-size:38px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="hoja">
+  <div class="tec"><img src="../logos/tec/tec_negro.png" alt="Tecnológico de Monterrey"></div>
+
+  <div class="tipo">Constancia de participación</div>
+  <div class="otorga">El grupo estudiantil [NOMBRE] otorga la presente a</div>
+
+  <div class="nombre">Nombre Apellido Apellido</div>
+  <div class="linea"></div>
+
+  <p class="cuerpo">
+    por su participación como <b>ponente</b> en el taller
+    <b>«Nombre del taller»</b>, realizado el 14 de agosto de 2026
+    en el Campus Monterrey.
+  </p>
+
+  <div class="firmas">
+    <div class="firma">
+      <div class="rule"></div>
+      <div class="quien">Nombre de la presidencia</div>
+      <div class="cargo">Presidencia · [Nombre del grupo]</div>
+    </div>
+    <div class="firma">
+      <div class="rule"></div>
+      <div class="quien">Nombre del asesor/a</div>
+      <div class="cargo">Asesor/a del grupo estudiantil</div>
+    </div>
+  </div>
+
+  <div class="fecha">Monterrey, Nuevo León · 14 de agosto de 2026</div>
+</div>
+</body>
+</html>

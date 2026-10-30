@@ -8,7 +8,7 @@ y qué le falta.
 
 ## Versión instalada
 
-**v2.16** — 17 de septiembre de 2026. `main` se queda con la skill y las imágenes se mudan a la rama `piezas`; guía de uso de las tres skills en PDF.
+**v2.18** — 29 de octubre de 2026. La skill `publicaciones-grupos-estudiantiles` entra como **módulo complementario LiFE**: `references/life/`, `assets/life/` y dos scripts. Solo se abre en piezas públicas de un grupo estudiantil.
 
 Las versiones son `MAYOR.MENOR`: la **mayor** sube cuando cambia cómo se usa la
 skill (v1 → v2 fue adelgazar el `SKILL.md` y sacar la animación); la **menor**,
@@ -140,6 +140,8 @@ Una línea por versión. El detalle está más abajo.
 
 | Versión | Fecha | Qué entró |
 |---|---|---|
+| **v2.18** | 29 oct 2026 | **Módulo complementario LiFE.** La skill aparte `publicaciones-grupos-estudiantiles` se integra para tener una sola que instalar: guía de logos, perfiles de grupo y ruta de Canva en `references/life/`; logos LiFE y del Tec y plantillas de post, story y diploma en `assets/life/`; `render_life.py` y `fuentes_life.sh` en `scripts/`. Puerta de entrada: `references/life/grupos-estudiantiles.md`, que dice cuándo se abre (difusión pública del grupo, diplomas, dudas de LiFE) y cuándo no. Queda abierto el conflicto entre «logo del grupo arriba» del manual y «logos abajo en reels» del 28-oct |
+| **v2.17** | 29 oct 2026 | **Labels de carga como detalle mínimo** (`recursos-compositivos.md` §3 reescrito: solo la palabra, sin fondo blanco, horizontal, 44–60 px, en una esquina, 1–2 por reel; Ramses rechazó los chips blancos rotados). Nueva sección «En video y reels» en `reglas-derivadas.md`: logos abajo en reels, cierre que alterna fondo, música sin repetir, patrocinadores al estilo @claudeai. Tabla de los cinco colores aprobados del cierre en su README |
 | **v2.16** | 17 sep 2026 | **`main` se queda solo con lo que el flujo lee.** Las 15 piezas aprobadas y las 18 capturas de inspiración se mudan a la rama huérfana **`piezas`** (51 archivos, 15 MB): no comparten historia con `main`, así que nunca vuelven solas en un merge. Siguen en la carpeta de trabajo, ignoradas, no borradas. `scripts/guia_pdf.py` arma la guía de uso de las tres skills —qué pide cada una, en qué orden y por dónde se hablan— para mandarla a quien no va a leer un `.md` |
 | **v2.15** | 17 sep 2026 | Veredicto de Ramses sobre la tanda 02 aplicado: 03 con bullets más grandes, **06 y 07 rehechas enteras**, 08 con la lista reorganizada, 10 con tipografía nueva y **Clawd caminando sobre la tarjeta** (sale también en MP4). **`--font-pixel` pasa de Pixelify Sans a Press Start 2P**: la redondeada no se lee (la `D` se ve `O`); cotejadas cuatro candidatas. **Bug de `analizar_referencia.py`**: `aire_max` tomaba como fondo el color de la esquina, así que sobre fondo oscuro o bajo una trama daba 0 con 300-400 px muertos a la vista; ahora el fondo es el color más frecuente y hay `aire_fiable` para decir cuándo el número no significa nada. `collage_animado.py` ajusta solo el cuerpo del titular al ancho de la tarjeta |
 | **v2.14** | 17 sep 2026 | `salida/tanda_fotos.py`: diez piezas con foto, **ninguna repite geometría** con las cinco aprobadas ni entre sí, en `piezas-aprobadas/tanda-02-imagenes/`. `entorno.py` sondea qué se puede hacer en Claude Code, desktop o web y qué se pierde sin lo que falte. `manual_pdf.py` arma el manual de 5 páginas con muestras vivas. El ZIP deja de llevar `salida/` |

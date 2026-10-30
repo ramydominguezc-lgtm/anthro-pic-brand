@@ -41,7 +41,7 @@ Anthropic.**
 cada lámina, que es como se lee a letra pequeña de contrato.
 
 Y no es lo mismo que el bloque LiFE, que lo manda la reglamentación del Tec
-(skill `publicaciones-grupos-estudiantiles`). Son dos requisitos distintos y los
+(módulo `references/life/grupos-estudiantiles.md`). Son dos requisitos distintos y los
 dos aplican.
 
 ## Datos de contacto — se copian, no se escriben de memoria

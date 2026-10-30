@@ -14,13 +14,13 @@ algo), **Bloqueado** (falta información que solo él tiene), **Listo para hacer
 | # | Qué | Por qué no se ha hecho |
 |---|---|---|
 | 1 | **Dónde vive el manual interactivo** | El PDF está hecho. La galería viva —piezas nuevas según se aprueban— pide un artifact, que es lo único que se actualiza sin reimprimir |
+| 6 | **Logos arriba o abajo en reels** | El manual LiFE pide el logo del grupo arriba; la regla del 28-oct (`reglas-derivadas.md`, «En video y reels» §2) los pone abajo para no tapar a la gente. Conviene confirmarlo con el Líder de Portafolio. Mientras, se avisa al entregar un reel |
 
 ## Bloqueado — falta información que solo tiene Ramses
 
 | # | Qué | Qué hace falta |
 |---|---|---|
 | 2 | **Rediseño de las láminas de carrusel** | La lista de lo que tienen que cubrir está en `references/laminas-carrusel.md`. Falta empezar por tres de un carrusel real, con texto de verdad |
-| 3 | **Logo LiFE** | No hay archivo. Si una pieza de grupo estudiantil tiene que llevarlo, hace falta el original |
 
 ## Listo para hacer — no rompe nada
 
@@ -33,6 +33,9 @@ algo), **Bloqueado** (falta información que solo él tiene), **Listo para hacer
 
 ## Cerrado
 
+- ~~Logo LiFE~~ · v2.18 — los originales llegaron con el módulo LiFE, en
+  `assets/life/logos/`: negro y blanco con la flor a color (los aceptados) y
+  las versiones mono, más los del Tec
 - ~~Las tres skills sin copia de seguridad~~ · v2.15 — las tres en GitHub,
   privadas, bajo `ramydominguezc-lgtm`. Tres repositorios y no uno porque se
   instalan por separado y `git init` se hizo **en la carpeta de trabajo**: así

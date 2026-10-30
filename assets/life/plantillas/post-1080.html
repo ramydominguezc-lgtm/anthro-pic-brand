@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<!--
+  Post de Instagram 1080x1080 — grupos estudiantiles Tec
+  Render:  python3 scripts/render_life.py assets/life/plantillas/post-1080.html out/post.png --width 1080 --height 1080
+
+  Para adaptar la pieza a un grupo, solo se tocan dos cosas:
+    1) el bloque IDENTIDAD DEL GRUPO en :root
+    2) el bloque .grupo (wordmark o <img> del logo)
+  Para variante oscura: class="canvas dark" y cambia el src del logo LiFE
+  a life-ge_blanco_flor-color.png.
+-->
+<style>
+  @font-face { font-family:'Poppins'; font-weight:700;
+    src:url('../../../node_modules/@fontsource/poppins/files/poppins-latin-700-normal.woff2') format('woff2'); }
+  @font-face { font-family:'Poppins'; font-weight:600;
+    src:url('../../../node_modules/@fontsource/poppins/files/poppins-latin-600-normal.woff2') format('woff2'); }
+  @font-face { font-family:'Inter'; font-weight:400;
+    src:url('../../../node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2') format('woff2'); }
+  @font-face { font-family:'Inter'; font-weight:500;
+    src:url('../../../node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2') format('woff2'); }
+  @font-face { font-family:'Inter'; font-weight:600;
+    src:url('../../../node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2') format('woff2'); }
+
+  :root{
+    /* ---------- IDENTIDAD DEL GRUPO — cambiar aquí ----------
+       Estos valores son PLACEHOLDERS neutros, no una paleta que deba
+       usarse tal cual. Sustitúyelos por los del grupo antes de producir. */
+    --acento:#3D3D3D;        /* PLACEHOLDER */        /* color principal del grupo */
+    --fondo:#FFFFFF;         /* fondo claro */
+    --texto:#1A1A1A;         /* texto sobre fondo claro */
+    --apoyo:#E6E6E6;         /* forma decorativa */
+    --fondo-oscuro:#1A1A1A;  /* fondo de la variante oscura */
+    --texto-claro:#FFFFFF;
+    --titulares:'Poppins';
+    --cuerpo:'Inter';
+    /* -------------------------------------------------------- */
+    --bg:var(--fondo); --fg:var(--texto); --soft:#5C5C5C; --line:#E0E0E0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1080px;overflow:hidden}
+
+  .canvas{position:relative;width:1080px;height:1080px;background:var(--bg);color:var(--fg);
+    font-family:var(--cuerpo),'Liberation Sans',sans-serif;
+    padding:88px 92px 76px;display:flex;flex-direction:column}
+  .canvas.dark{--bg:var(--fondo-oscuro);--fg:var(--texto-claro);--soft:#9A9A9A;--line:#333333}
+
+  /* Forma decorativa. Quítala si la pieza lleva foto de fondo. */
+  .blob{position:absolute;right:-140px;top:-140px;width:520px;height:520px;
+        border-radius:50%;background:var(--apoyo);opacity:.55}
+  .canvas.dark .blob{background:var(--acento);opacity:.22}
+  .canvas > *{position:relative;z-index:1}
+
+  /* --- Logo del grupo: arriba y el más grande de la pieza --- */
+  .grupo{display:flex;align-items:center;gap:18px;margin-bottom:auto}
+  .grupo .marca{font-family:var(--titulares),sans-serif;font-weight:700;font-size:52px;
+                letter-spacing:-.02em;line-height:1}
+  .grupo .marca span{color:var(--acento)}
+  /* Si el grupo tiene archivo de logo, sustituye .marca por:
+     <img src="../logos/grupos/mi-grupo.png" style="height:96px"> */
+
+  .kicker{font-size:28px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+          color:var(--acento);margin-bottom:22px}
+  h1{font-family:var(--titulares),sans-serif;font-weight:700;font-size:112px;line-height:.98;
+     letter-spacing:-.025em;margin-bottom:26px}
+  .gancho{font-size:40px;line-height:1.32;color:var(--soft);max-width:840px;margin-bottom:52px}
+
+  .datos{display:flex;flex-direction:column;gap:16px;margin-bottom:44px}
+  .dato{display:flex;align-items:center;gap:18px;font-size:38px;font-weight:500}
+  .dato .ic{width:52px;height:52px;flex:0 0 52px;border-radius:14px;background:var(--acento);
+            color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px}
+
+  .cta{display:inline-flex;align-items:center;align-self:flex-start;gap:14px;
+       background:var(--acento);color:#fff;font-weight:600;font-size:32px;
+       padding:20px 34px;border-radius:999px}
+
+  /* --- Pie: bloque LiFE + contacto --- */
+  .pie{margin-top:auto;padding-top:34px;border-top:2px solid var(--line);
+       display:flex;align-items:center;justify-content:space-between;gap:40px}
+  /* Área de respeto del logo LiFE: el padding es lo que la garantiza. No lo bajes. */
+  .life{padding:14px 20px;display:flex;align-items:center}
+  .life img{height:52px;width:auto;display:block}  /* alto fijo, ancho automático: nunca se deforma */
+  .life.cintilla{background:#FFFFFF;border-radius:12px}  /* si el fondo traga la flor */
+  .contacto{font-size:28px;color:var(--soft);text-align:right;line-height:1.4}
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="blob"></div>
+
+  <div class="grupo">
+    <div class="marca">Grupo<span>Estudiantil</span></div>
+  </div>
+
+  <div class="kicker">Etiqueta del evento</div>
+  <h1>Título del<br>evento aquí</h1>
+  <p class="gancho">Una línea que explique qué es y a quién le sirve.</p>
+
+  <div class="datos">
+    <div class="dato"><span class="ic">📅</span> Jueves 14 de agosto</div>
+    <div class="dato"><span class="ic">🕒</span> 17:00 h</div>
+    <div class="dato"><span class="ic">📍</span> Aula Magna, Aulas IV</div>
+  </div>
+
+  <div class="cta">Regístrate · bit.ly/enlace</div>
+
+  <div class="pie">
+    <div class="life">
+      <img src="../logos/life-ge_negro_flor-color.png" alt="LiFE | Grupos Estudiantiles">
+    </div>
+    <div class="contacto">@handle_del_grupo<br>Dudas: contacto@grupo</div>
+  </div>
+</div>
+</body>
+</html>

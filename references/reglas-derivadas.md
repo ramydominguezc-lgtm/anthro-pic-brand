@@ -18,7 +18,9 @@ Regla del archivo: **nada de adjetivos sin número detrás.**
    *Confianza alta.*
 
 2. **Capas encabalgadas, no carriles.** Los objetos se montan unos sobre otros:
-   chips sobre el titular, fotos dentro del texto, un elemento que tapa el pie.
+   fotos que se enciman, fotos dentro del texto, un elemento que tapa el pie.
+   Las labels de carga **no** entran aquí: van solas en una esquina (ver
+   «En video y reels»).
    Que cada cosa tenga su franja limpia es exactamente lo que se lee como plano
    aunque la paleta y la tipografía sean correctas. *Confianza media.*
 
@@ -95,6 +97,25 @@ Regla del archivo: **nada de adjetivos sin número detrás.**
     salto tipográfico. El acomodo se inventa cada vez. Señal de que se está
     calcando: varias piezas de una tanda comparten esqueleto —rótulo, titular, un
     objeto centrado, nota, pie—. Eso hundió las cinco de recursos gráficos.
+
+## En video y reels (Ramses, 28/10/2026, contenido del ClaudeTec Hackathon)
+
+1. **Labels de carga: detalle mínimo en una esquina.** Solo la palabra, sin
+   fondo blanco, horizontal, 44–60 px, 1–2 por reel y casi ninguna en
+   carruseles. Detalle en `recursos-compositivos.md` §3. *Confianza alta:
+   rechazo explícito.*
+2. **Logos abajo en los reels.** ClaudeTec y el bloque LiFE van centrados
+   justo arriba de la zona segura inferior (`bottom` ≈ 340–380 px). Arriba
+   quedan sobre la cabeza de la gente. *Confianza alta.*
+3. **El cierre animado alterna fondo dentro de una serie.** No siempre el
+   durazno: crema, blanco, gris claro, oscuro (con `--clara`) o durazno, uno
+   por pieza. Tabla en `assets/animaciones/cierre-claudetec/README.md`.
+4. **La música no se repite entre reels de una serie.** Cada reel con su pista
+   (progresión, instrumento y ritmo distintos).
+5. **Patrocinadores al estilo @claudeai.** Fondo plano de la paleta, una toma
+   en ventana o un collage de 3, titular serif que cuenta qué aportaron (la
+   comida, por ejemplo). Nada de datos de la empresa, juegos de palabras ni
+   etiquetas. Poco texto.
 
 ## Lo que no se puede medir
 

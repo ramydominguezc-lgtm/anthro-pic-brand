@@ -79,6 +79,25 @@ sabe, y si se lo dices a medias sale peor.
 Si quieres varias opciones, pídelas de una vez: «dame tres composiciones
 distintas» ahorra tres rondas.
 
+## Módulo LiFE — solo para grupos estudiantiles
+
+Las reglas del Tec para la publicidad de grupos estudiantiles vienen **dentro**
+de esta skill, como módulo complementario: el bloque LiFE + Grupos
+Estudiantiles, la jerarquía de logos, lo que debe llevar toda pieza, los
+diplomas y el mensaje de difusión para WhatsApp o correo. Vive en
+`references/life/` y `assets/life/`.
+
+No se aplica a todo. Claude lo abre solo cuando la pieza es **publicidad
+pública de un grupo estudiantil** (post, story, flyer, cartel), un **diploma**,
+o cuando preguntas por el logo LiFE. Un recurso gráfico o una pieza con marca
+Claude que no es difusión del grupo sale sin él. Si quieres forzarlo, pídelo:
+«añade el bloque LiFE»; si no lo quieres, dilo.
+
+Sirve también para otros grupos: trae plantillas de post, story y diploma que
+se reidentifican con la paleta de cada grupo.
+
+---
+
 ## Lo que no decidas por tu cuenta
 
 Estas cosas ya están resueltas y cambiarlas rompe el sistema:

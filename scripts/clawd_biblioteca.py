@@ -27,12 +27,11 @@ EL REPARTO ENTRE LAS TRES SKILLS
   `clawd-biblioteca`   almacena y entrega lo terminado. Su `CATALOGO.md` manda.
   `anthro-pic-brand`   (esta) compone piezas. Consume de la biblioteca.
 
-  Los **stickers quietos** de Clawd —`clawd-base`, `coffee`, `search`,
-  `skateboard`, `headphones`— se quedan aqui, en `assets/clawd/`. No es una
-  preferencia: la biblioteca guarda animaciones, su tabla de entrega son formatos
-  animados (gif, webp, mp4, hoja de sprites), y su regla 3 dice que `clawd-base`
-  de la skill de marca **es otro dibujo** —brazos de distinto ancho— que no se
-  mezcla con los animados. Moverlos alli juntaria dos dibujos en una biblioteca
+  Los **stickers quietos** de Clawd —`coffee`, `search`, `skateboard`,
+  `headphones`— se quedan aqui, en `assets/clawd/`. No es una preferencia: la
+  biblioteca guarda animaciones, su tabla de entrega son formatos animados (gif,
+  webp, mp4, hoja de sprites), y los stickers de la skill de marca **son otro
+  dibujo** —brazos de distinto ancho— que no se mezcla con los animados. Moverlos alli juntaria dos dibujos en una biblioteca
   que existe para no mezclarlos.
 
 QUE CONSUME HOY LA SKILL DE MARCA

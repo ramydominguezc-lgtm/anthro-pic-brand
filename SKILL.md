@@ -190,7 +190,7 @@ lista lo que hay.
 `clawd-animaciones`, que la regenera en la biblioteca. Y al revés: si alguien
 regenera `paseo`, la pieza de terminal de esta skill cambia con ella.
 
-**No mezclar dibujos de Clawd en una pieza.** `clawd-base` y los stickers de
+**No mezclar dibujos de Clawd en una pieza.** Los stickers de
 aquí, `caminando`/`saltando`/`confeti`/`pesas` de la biblioteca y
 `paseo`/`paseo-arriba` son tres dibujos distintos —los brazos miden distinto—.
 Juntos se leen como error.

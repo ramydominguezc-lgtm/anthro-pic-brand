@@ -31,7 +31,6 @@ GRUPOS = {
     ],
     '2-ilustraciones': ['assets/ilustraciones/*.svg'],
     '3-clawd': [
-        'assets/clawd/clawd-base.svg',
         'assets/clawd/clawd-headphones.svg',
     ],
     '4-fotos': ['assets/fotos/*.png'],

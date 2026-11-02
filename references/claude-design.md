@@ -58,7 +58,7 @@ callejón sin salida que se describe en `canva.md`.
 ## Esta skill sí carga en Claude Design
 
 Comprobado en producción: `anthro-pic-brand` está disponible dentro de Claude
-Design, así que se puede nombrar un asset por su ruta —`assets/clawd/clawd-base.svg`,
+Design, así que se puede nombrar un asset por su ruta —`assets/clawd/clawd-headphones.svg`,
 `assets/ilustraciones/globo-red.svg`— sin subirlo a mano en cada sesión.
 
 Con una salvedad que no es obvia: **una ruta local nunca resuelve dentro de un

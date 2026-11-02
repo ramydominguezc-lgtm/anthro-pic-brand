@@ -8,7 +8,9 @@ y qué le falta.
 
 ## Versión instalada
 
-**v2.18** — 29 de octubre de 2026. La skill `publicaciones-grupos-estudiantiles` entra como **módulo complementario LiFE**: `references/life/`, `assets/life/` y dos scripts. Solo se abre en piezas públicas de un grupo estudiantil.
+**v2.19** — 2 de noviembre de 2026. Se borra el sticker `clawd-base` de toda la skill.
+
+Anterior: **v2.18** — 29 de octubre de 2026. La skill `publicaciones-grupos-estudiantiles` entra como **módulo complementario LiFE**: `references/life/`, `assets/life/` y dos scripts. Solo se abre en piezas públicas de un grupo estudiantil.
 
 Las versiones son `MAYOR.MENOR`: la **mayor** sube cuando cambia cómo se usa la
 skill (v1 → v2 fue adelgazar el `SKILL.md` y sacar la animación); la **menor**,
@@ -140,6 +142,7 @@ Una línea por versión. El detalle está más abajo.
 
 | Versión | Fecha | Qué entró |
 |---|---|---|
+| **v2.19** | 2 nov 2026 | **Fuera `clawd-base`.** Ramses pidió deshacerse de él; ya estaba descartado desde la revisión de septiembre. Se borran `assets/clawd/clawd-base.png` y `.svg`; `guia_pdf.py` usa ahora `clawd-headphones.png`, `preparar_canva.py` deja de subirlo, y se quitan sus menciones en `SKILL.md`, `assets-index.md`, `claude-design.md` y `clawd_biblioteca.py`. Biblioteca y visor regenerados (73 assets) |
 | **v2.18** | 29 oct 2026 | **Módulo complementario LiFE.** La skill aparte `publicaciones-grupos-estudiantiles` se integra para tener una sola que instalar: guía de logos, perfiles de grupo y ruta de Canva en `references/life/`; logos LiFE y del Tec y plantillas de post, story y diploma en `assets/life/`; `render_life.py` y `fuentes_life.sh` en `scripts/`. Puerta de entrada: `references/life/grupos-estudiantiles.md`, que dice cuándo se abre (difusión pública del grupo, diplomas, dudas de LiFE) y cuándo no. Queda abierto el conflicto entre «logo del grupo arriba» del manual y «logos abajo en reels» del 28-oct |
 | **v2.17** | 29 oct 2026 | **Labels de carga como detalle mínimo** (`recursos-compositivos.md` §3 reescrito: solo la palabra, sin fondo blanco, horizontal, 44–60 px, en una esquina, 1–2 por reel; Ramses rechazó los chips blancos rotados). Nueva sección «En video y reels» en `reglas-derivadas.md`: logos abajo en reels, cierre que alterna fondo, música sin repetir, patrocinadores al estilo @claudeai. Tabla de los cinco colores aprobados del cierre en su README |
 | **v2.16** | 17 sep 2026 | **`main` se queda solo con lo que el flujo lee.** Las 15 piezas aprobadas y las 18 capturas de inspiración se mudan a la rama huérfana **`piezas`** (51 archivos, 15 MB): no comparten historia con `main`, así que nunca vuelven solas en un merge. Siguen en la carpeta de trabajo, ignoradas, no borradas. `scripts/guia_pdf.py` arma la guía de uso de las tres skills —qué pide cada una, en qué orden y por dónde se hablan— para mandarla a quien no va a leer un `.md` |

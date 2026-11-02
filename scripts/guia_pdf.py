@@ -37,7 +37,7 @@ def uri(ruta):
 
 def html():
     logo = uri(RAIZ / 'assets/logos-claudetec/claudetec--claro.png')
-    clawd = uri(RAIZ / 'assets/clawd/clawd-base.png')
+    clawd = uri(RAIZ / 'assets/clawd/clawd-headphones.png')
     return f"""<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
 <link rel="stylesheet" href="../assets/tokens/tokens.css">
 <style>

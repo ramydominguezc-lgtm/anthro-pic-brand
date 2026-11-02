@@ -63,13 +63,12 @@ No usar en material institucional, ni junto al wordmark, ni como sustituto del l
 
 | Archivo | Medida | Escena |
 |---|---|---|
-| `clawd-base.png` | 640 × 640 | Neutro, sin objeto. El más versátil. |
 | `clawd-coffee.png` | 616 × 364 | Con café. Sesiones matutinas, cafecito, coworking. |
 | `clawd-headphones.png` | 528 × 473 | Con audífonos azules `#23476e`. Focus, música, sesiones largas. |
 | `clawd-search.png` | 526 × 475 | Con lupa. Investigación, búsqueda, exploración. |
 | `clawd-skateboard.png` | 498 × 501 | En patineta. Energía, arranque, eventos casuales. |
 
-**Solo `clawd-base` y `clawd-headphones` tienen `.svg`.** Los otros tres no son
+**Solo `clawd-headphones` tiene `.svg`.** Los otros tres no son
 pixel art recuperable: el removebg los reescaló con resampleo y ya no existe una
 retícula exacta que reconstruir. Al forzarlos se rompen el sombrero, la lupa y la
 patineta. `scripts/vectorizar_pixelart.py` ahora lo detecta solo y se abstiene en
@@ -103,8 +102,8 @@ vieja en el primer retoque.
 Lo único que hace falta saber desde aquí: **la animación no va en piezas fijas.**
 En un post, flyer o PDF se congela y pierde lo único que aportaba. Ahí va un
 Clawd quieto de `assets/clawd/`. Y no se mezclan los dibujos: el Clawd animado
-tiene un cuerpo de 16 unidades en un lienzo de 28, contra 12 de 16 en
-`clawd-base`, y juntos en una pieza se leen como un error.
+es otro dibujo que los stickers de aquí, y juntos en una pieza se leen como un
+error.
 
 ## Qué fondo aguanta cada familia
 
@@ -132,7 +131,9 @@ Tres cosas que esta revisión cambió, y que antes la skill decía al revés:
    cualquier fondo". No: la textura se traga el dibujo contra el oscuro.
 3. **Clawd sobre naranja ya estaba prohibido y se confirma**, pero además
    `clawd-base` quedó descartado — justo el que estaba descrito como "el más
-   versátil". Los que se usan son coffee, headphones, search y skateboard.
+   versátil". El 2 de noviembre de 2026 Ramses pidió deshacerse de él y se
+   borró de la skill (v2.19). Los que se usan son coffee, headphones, search y
+   skateboard.
 
 Descartes de la revisión, que siguen en la carpeta pero no se usan:
 la familia `lampara-escritura` entera (4 archivos), las variantes `--claro` de
